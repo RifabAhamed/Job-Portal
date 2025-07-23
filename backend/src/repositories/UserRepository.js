@@ -1,0 +1,29 @@
+import UserModel from "../models/UserModel.js";
+
+const UserRepository = {
+  async findByEmail(email) {
+    return await UserModel.findOne({ email });
+  },
+
+  async findById(id) {
+    return await UserModel.findById(id);
+  },
+
+  async create(userData) {
+    return await UserModel.create(userData);
+  },
+
+  async getPaginatedUsers(page, limit) {
+    const skip = (page - 1) * limit;
+    const users = await UserModel.find().skip(skip).limit(Number(limit));
+    const total = await UserModel.countDocuments();
+    return {
+      users,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / limit),
+    };
+  },
+};
+
+export default UserRepository;
