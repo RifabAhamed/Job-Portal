@@ -16,13 +16,14 @@ router.post(
 router.post("/logout", authenticate, userController.logoutController);
 
 router.post("/reset-password", userController.resetPassowrdController); 
+router.post("/set-new-password", userController.setNewPasswordController);
 router.post(
   "/update-password",
   authenticate,
   userController.updatePassowrdController
 );
 
-router.get("/auth", authenticate, userController.authController);
+router.get("/auth", authenticate, userController.getUserByIdController);
 router.get(
   "/get-all-users",
   validate(paginationSchema),

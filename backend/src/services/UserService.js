@@ -27,8 +27,36 @@ const UserService = {
   },
 
   async resetPassword({ email }) {
-    // Add logic to send reset link or OTP
-    return { status: 200, message: "Reset link sent (mock response)" };
+    const user = await UserRepository.findByEmail(email);
+    if (!user) return { status: 404, message: "User not found" };
+
+    // Generate a short-lived token (e.g., 15 minutes)
+    const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
+
+    // Simulate sending the token (in real app: send via email)
+    return {
+      status: 200,
+      message: "Reset link sent (mock)",
+      data: { resetToken }, // in real app, don't expose this in response
+    };
+  },
+
+  async setNewPassword({ token, newPassword }) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await UserRepository.findById(decoded.id);
+      if (!user) return { status: 404, message: "Invalid or expired token" };
+
+      const hashed = await bcrypt.hash(newPassword, 10);
+      user.password = hashed;
+      await user.save();
+
+      return { status: 200, message: "Password has been reset" };
+    } catch (err) {
+      return { status: 400, message: "Invalid or expired token" };
+    }
   },
 
   async updatePassword(user, { currentPassword, newPassword }) {

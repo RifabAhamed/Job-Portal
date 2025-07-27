@@ -16,12 +16,18 @@ class UserController {
     res.status(response.status).json(response);
   }
 
+  async setNewPasswordController(req, res) {
+    const { token, newPassword } = req.body;
+    const response = await UserService.setNewPassword({ token, newPassword });
+    res.status(response.status).json(response);
+  }
+
   async updatePassowrdController(req, res) {
     const response = await UserService.updatePassword(req.user, req.body);
     res.status(response.status).json(response);
   }
 
-  async authController(req, res) {
+  async getUserByIdController(req, res) {
     const response = await UserService.getUserById(req.user.id);
     res.status(response.status).json(response);
   }
