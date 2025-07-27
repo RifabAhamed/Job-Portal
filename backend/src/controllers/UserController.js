@@ -11,7 +11,7 @@ class UserController {
     res.status(response.status).json(response);
   }
 
-  async resetPassowrdController(req, res) {
+  async resetPasswordController(req, res) {
     const response = await UserService.resetPassword(req.body);
     res.status(response.status).json(response);
   }
@@ -22,7 +22,7 @@ class UserController {
     res.status(response.status).json(response);
   }
 
-  async updatePassowrdController(req, res) {
+  async updatePasswordController(req, res) {
     const response = await UserService.updatePassword(req.user, req.body);
     res.status(response.status).json(response);
   }
