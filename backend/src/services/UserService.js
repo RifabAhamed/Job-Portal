@@ -96,6 +96,18 @@ const UserService = {
 
     return { status: 201, message: "User registered", data: user };
   },
+
+
+  async updateUserRole(id, role) {
+    const updatedUser = await UserRepository.updateUserRole(id, role);
+    if (!updatedUser) return { status: 404, message: "User not found" };
+
+    return {
+      status: 200,
+      message: "User role updated",
+      data: updatedUser,
+    };
+  },
 };
 
 export default UserService;

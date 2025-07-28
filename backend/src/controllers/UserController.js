@@ -41,6 +41,19 @@ class UserController {
     const response = await UserService.registerUser(req.body);
     res.status(response.status).json(response);
   }
+
+
+  async updateUserRoleController(req, res) {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    const validRoles = ["employer", "admin"];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ message: "Invalid role" });
+    }
+    const response = await UserService.updateUserRole(id, role);
+    res.status(response.status).json(response);
+  }
 }
 
 export default UserController;

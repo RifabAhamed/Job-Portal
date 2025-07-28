@@ -3,6 +3,7 @@ import authenticate from "../middlewares/authMiddleware.js";
 import { loginUserValidationSchema, paginationSchema, registerUserValidationSchema } from "../validations/UserValidations.js";
 import UserController from "../controllers/userController.js";
 import validate from "../middlewares/validationMiddleware.js"
+import { authorizeRoles } from "../middlewares/authMiddleware.js";
 
 
 const router = express.Router();
@@ -28,6 +29,7 @@ router.get(
   "/get-all-users",
   validate(paginationSchema),
   authenticate,
+  authorizeRoles("admin"),
   userController.getAllUsersPaginatedController
 );
 
@@ -36,5 +38,15 @@ router.post(
   validate(registerUserValidationSchema),
   userController.registerUserController
 );
+
+
+router.patch(
+  "/role/:id",
+  authenticate,
+  authorizeRoles("admin"),
+  userController.updateUserRoleController
+);
+
+
 
 export default router;
