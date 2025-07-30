@@ -16,9 +16,13 @@ class UserController {
     res.status(response.status).json(response);
   }
 
-  async setNewPasswordController(req, res) {
+
+  async submitNewPasswordController(req, res) {
     const { token, newPassword } = req.body;
-    const response = await UserService.setNewPassword({ token, newPassword });
+    const response = await UserService.submitNewPassword({
+      token,
+      newPassword,
+    });
     res.status(response.status).json(response);
   }
 
@@ -41,7 +45,6 @@ class UserController {
     const response = await UserService.registerUser(req.body);
     res.status(response.status).json(response);
   }
-
 
   async updateUserRoleController(req, res) {
     const { id } = req.params;

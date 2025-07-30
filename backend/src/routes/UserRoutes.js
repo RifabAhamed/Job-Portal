@@ -17,7 +17,7 @@ router.post(
 router.post("/logout", authenticate, userController.logoutController);
 
 router.post("/reset-password", userController.resetPasswordController); 
-router.post("/set-new-password", userController.setNewPasswordController);
+router.post("/submit-new-password", userController.submitNewPasswordController);
 router.post(
   "/update-password",
   authenticate,

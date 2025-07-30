@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserRepository from "../repositories/UserRepository.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 const UserService = {
   async login({ email, password }) {
@@ -35,7 +36,20 @@ const UserService = {
       expiresIn: "15m",
     });
 
-    // Simulate sending the token (in real app: send via email)
+    const resetLink = `${process.env.BASE_URL}/reset-password?token=${resetToken}`;
+
+    // Send email
+    await sendEmail({
+      to: email,
+      subject: "Password Reset Request",
+      html: `
+      <p>Hello ${user.name},</p>
+      <p>Click the link below to reset your password:</p>
+      <a href="${resetLink}">Reset Password</a>
+      <p>This link will expire in 15 minutes.</p>
+    `,
+    });
+
     return {
       status: 200,
       message: "Reset link sent (mock)",
@@ -43,7 +57,8 @@ const UserService = {
     };
   },
 
-  async setNewPassword({ token, newPassword }) {
+
+  async submitNewPassword({ token, newPassword }) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const user = await UserRepository.findById(decoded.id);
@@ -96,7 +111,6 @@ const UserService = {
 
     return { status: 201, message: "User registered", data: user };
   },
-
 
   async updateUserRole(id, role) {
     const updatedUser = await UserRepository.updateUserRole(id, role);
