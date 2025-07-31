@@ -24,6 +24,14 @@ const UserRepository = {
       pages: Math.ceil(total / limit),
     };
   },
+
+  async updateUserRole(userId, role) {
+    return await UserModel.findByIdAndUpdate(
+      userId,
+      { role: role },
+      { new: true }
+    );
+  },
 };
 
 export default UserRepository;

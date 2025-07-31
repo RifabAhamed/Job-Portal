@@ -3,6 +3,7 @@ import authenticate from "../middlewares/authMiddleware.js";
 import { loginUserValidationSchema, paginationSchema, registerUserValidationSchema } from "../validations/UserValidations.js";
 import UserController from "../controllers/userController.js";
 import validate from "../middlewares/validationMiddleware.js"
+import { authorizeRoles } from "../middlewares/authMiddleware.js";
 
 
 const router = express.Router();
@@ -15,18 +16,20 @@ router.post(
 );
 router.post("/logout", authenticate, userController.logoutController);
 
-router.post("/reset-password", userController.resetPassowrdController); 
+router.post("/reset-password", userController.resetPasswordController); 
+router.post("/submit-new-password", userController.submitNewPasswordController);
 router.post(
   "/update-password",
   authenticate,
-  userController.updatePassowrdController
+  userController.updatePasswordController
 );
 
-router.get("/auth", authenticate, userController.authController);
+router.get("/auth", authenticate, userController.getUserByIdController);
 router.get(
   "/get-all-users",
   validate(paginationSchema),
   authenticate,
+  authorizeRoles("admin"),
   userController.getAllUsersPaginatedController
 );
 
@@ -35,5 +38,15 @@ router.post(
   validate(registerUserValidationSchema),
   userController.registerUserController
 );
+
+
+router.patch(
+  "/role/:id",
+  authenticate,
+  authorizeRoles("admin"),
+  userController.updateUserRoleController
+);
+
+
 
 export default router;
