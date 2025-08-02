@@ -1,10 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+// import './index.css'
 import App from './App.jsx'
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 
-createRoot(document.getElementById('root')).render(
+const theme = createTheme(); // Customize if needed
+
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </StrictMode>
+);
