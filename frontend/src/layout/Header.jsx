@@ -1,5 +1,7 @@
 import React from "react";
-import { AppBar, Box, Link, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Link, Toolbar, Typography } from "@mui/material";
+import {JobIcon} from "../assets/icons/JobIcon"
+import { ThemeSwitchButton } from "../components/ThemeSwitchBotton";
 
 const Header = () => {
   return (
@@ -10,27 +12,70 @@ const Header = () => {
         backgroundColor: "transparent",
         backdropFilter: "blur(4px)", // Optional: for a blurred glass effect
         boxShadow: "none",
-        color: "#000", // Adjust based on background
       }}
     >
-      <Toolbar >
-        <Typography variant="h6" component="div" sx={{ width: "20%", textAlign: "center" }}>
-          My Website
-        </Typography>
-        <Box sx={{ display: "flex", gap: 3,  justifyContent: "space-between", width: "60%", px: 20 }}>
-          <Link href="#" underline="none" color="inherit">
+      <Toolbar>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: "20%",
+            justifyContent: "center",
+            gap: 3,
+          }}
+        >
+          <JobIcon sx={{ color: "primary" }} />
+          <Typography variant="h6" component="div">
+            Job Portal
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            gap: 3,
+            justifyContent: "center",
+            width: "60%",
+          }}
+        >
+          <Link href="/" underline="none" color="inherit">
             Home
           </Link>
-          <Link href="#" underline="none" color="inherit">
+          <Link href="/jobs" underline="none" color="inherit">
+            Jobs
+          </Link>
+          <Link href="/about" underline="none" color="inherit">
             About
           </Link>
-          <Link href="#" underline="none" color="inherit">
-            Services
-          </Link>
-          <Link href="#" underline="none" color="inherit">
+
+          <Link href="/contact" underline="none" color="inherit">
             Contact
           </Link>
         </Box>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            width: "20%",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button
+            variant="outlined"
+            color="inherit"
+            sx={{ textTransform: "none" }}
+          >
+            Login
+          </Button>
+          <Button
+            variant="contained"
+            color="primarybutton"
+            sx={{ textTransform: "none" }}
+          >
+            Register
+          </Button>
+        </Box>
+        <ThemeSwitchButton />
       </Toolbar>
     </AppBar>
   );
