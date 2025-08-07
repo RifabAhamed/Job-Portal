@@ -1,6 +1,20 @@
 import React from "react";
-import { Box, Container, Typography, Button, Grid, Paper } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Grid,
+  Paper,
+  FormControl,
+  InputLabel,
+  Avatar,
+} from "@mui/material";
 import DiscussingImage from "../assets/images/DiscussingImage.jpg"; // Adjust the path as necessary
+import JobSearchComponent from "../components/JobSearchComponent";
+import { JobIcon } from "../assets/icons/JobIcon";
+import { CandidatesIcon } from "../assets/icons/CandidatesIcon";
+import { CompaniesIcon } from "../assets/icons/CompaniesIcon";
 
 const HomePage = () => {
   return (
@@ -8,6 +22,7 @@ const HomePage = () => {
       {/* Hero Section */}
       <Box
         sx={{
+          position: "relative",
           textAlign: "center",
           py: 25,
           color: "primary.contrastText",
@@ -15,25 +30,145 @@ const HomePage = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          filter: "blur(1px) brightness(0.5)", // blur + darken
-          zIndex: 0,
+          overflow: "hidden",
         }}
       >
-        <Typography variant="h3" gutterBottom>
-          Find Your Dream Job
-        </Typography>
-        <Typography variant="h6" sx={{ mb: 4 }}>
-          Explore thousands of job opportunities across different industries.
-        </Typography>
-        <Button variant="contained" size="large" color="secondary">
-          Get Started
-        </Button>
+        {/* Dark Overlay */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.6)", // Adjust opacity here
+            zIndex: 1,
+          }}
+        />
+
+        {/* Content */}
+        <Box sx={{ position: "relative", zIndex: 2 }}>
+          <Typography variant="h3" gutterBottom sx={{ fontWeight: "bold" }}>
+            Find Your Dream Job
+          </Typography>
+          <Typography variant="h6" sx={{ mb: 4 }}>
+            Connecting Talent with Opportunity: Your Gateway to Career Success
+          </Typography>
+          <Box sx={{ width: "100%", maxWidth: 800, mx: "auto" }}>
+            <JobSearchComponent />
+          </Box>
+          <Box
+            sx={{ display: "flex", justifyContent: "center", gap: 8, mt: 8 }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              <Avatar
+                sx={{ bgcolor: "primarygreen.main", width: 56, height: 56 }}
+              >
+                <JobIcon />
+              </Avatar>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{ display: "block", fontWeight: "bold" }}
+                >
+                  25,850
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{ display: "block", fontWeight: "light" }}
+                >
+                  Jobs
+                </Typography>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              <Avatar
+                sx={{ bgcolor: "primarygreen.main", width: 56, height: 56 }}
+              >
+                <CandidatesIcon />
+              </Avatar>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{ display: "block", fontWeight: "bold" }}
+                >
+                  10,250
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{ display: "block", fontWeight: "light" }}
+                >
+                  Candidates
+                </Typography>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              <Avatar
+                sx={{ bgcolor: "primarygreen.main", width: 56, height: 56 }}
+              >
+                <CompaniesIcon />
+              </Avatar>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{ display: "block", fontWeight: "bold" }}
+                >
+                  18,400
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{ display: "block", fontWeight: "light" }}
+                >
+                  Companies
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
       </Box>
 
-      {/* Featured Jobs */}
-      <Box sx={{ mt: 10 }}>
-        <Typography variant="h4" gutterBottom>
-          Featured Jobs
+      <Box sx={{ mt: 6, px: 6 }}>
+        <Typography variant="h4" gutterBottom sx={{fontWeight: "bold"}}>
+          Recent Jobs Available
         </Typography>
         <Grid container spacing={4}>
           {Array.from({ length: 4 }).map((_, index) => (

@@ -9,7 +9,7 @@ const Header = () => {
       position="fixed"
       elevation={0}
       sx={{
-        backgroundColor: "transparent",
+        backgroundColor: "rgba(0, 0, 0, 0.6)",
         backdropFilter: "blur(4px)", // Optional: for a blurred glass effect
         boxShadow: "none",
       }}
@@ -20,7 +20,7 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
             width: "20%",
-            justifyContent: "center",
+            justifyContent: "start",
             gap: 3,
           }}
         >
@@ -69,7 +69,7 @@ const Header = () => {
           </Button>
           <Button
             variant="contained"
-            color="primarybutton"
+            color="primarygreen"
             sx={{ textTransform: "none" }}
           >
             Register
