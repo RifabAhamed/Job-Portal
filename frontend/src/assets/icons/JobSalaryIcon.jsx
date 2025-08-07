@@ -11,7 +11,7 @@ export const JobSalaryIcon = () => {
     >
       <mask
         id="mask0_6_2105"
-        style="mask-type:luminance"
+        style={{ maskType: "luminance" }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -24,20 +24,20 @@ export const JobSalaryIcon = () => {
         <path
           d="M19.3091 6.37329V4.49618C19.3091 3.46184 18.4706 2.62329 17.4362 2.62329H2.80911C1.7736 2.62329 0.934113 3.46278 0.934113 4.49829C0.934113 5.53381 1.7736 6.37329 2.80911 6.37329H21.1862C22.2206 6.37329 23.0591 7.21184 23.0591 8.24618V11.0608"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
+          strokeWidth="2"
+          strokeMiterlimit="10"
         />
         <path
           d="M23.0591 16.6858V19.5004C23.0591 20.5347 22.2206 21.3733 21.1862 21.3733H2.80911C1.7736 21.3733 0.934113 20.5339 0.934113 19.4983V4.49829"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
+          strokeWidth="2"
+          strokeMiterlimit="10"
         />
         <path
           d="M23.0591 16.6858H18.3716C16.8183 16.6858 15.5591 15.4266 15.5591 13.8733C15.5591 12.32 16.8183 11.0608 18.3716 11.0608H23.0591V16.6858Z"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
+          strokeWidth="2"
+          strokeMiterlimit="10"
         />
       </g>
     </svg>

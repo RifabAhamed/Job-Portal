@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Container,
@@ -9,14 +9,36 @@ import {
   FormControl,
   InputLabel,
   Avatar,
+  Pagination,
 } from "@mui/material";
 import DiscussingImage from "../assets/images/DiscussingImage.jpg"; // Adjust the path as necessary
 import JobSearchComponent from "../components/JobSearchComponent";
 import { JobIcon } from "../assets/icons/JobIcon";
 import { CandidatesIcon } from "../assets/icons/CandidatesIcon";
 import { CompaniesIcon } from "../assets/icons/CompaniesIcon";
+import JobCard from "../components/JobCard";
+import jobs from "../data/JobsData.js"
+
+
+const itemsPerPage = 6;
 
 const HomePage = () => {
+
+  const [showAll, setShowAll] = useState(false);
+  const [page, setPage] = useState(1);
+
+  const handleSeeAll = () => {
+    setShowAll(true);
+  };
+
+  const handlePageChange = (value) => {
+    setPage(value);
+  };
+
+  const paginatedJobs = jobs.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage
+  );
   return (
     <Container maxWidth="" disableGutters sx={{ mt: 0 }}>
       {/* Hero Section */}
@@ -167,39 +189,33 @@ const HomePage = () => {
       </Box>
 
       <Box sx={{ mt: 6, px: 6 }}>
-        <Typography variant="h4" gutterBottom sx={{fontWeight: "bold"}}>
+        <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
           Recent Jobs Available
         </Typography>
-        <Grid container spacing={4}>
-          {Array.from({ length: 4 }).map((_, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <Paper
-                elevation={3}
-                sx={{
-                  p: 2,
-                  borderRadius: 2,
-                  height: "100%",
-                }}
-              >
-                <Typography variant="h6">Software Engineer</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  ABC Tech - Colombo
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  ₹80,000 - ₹120,000/month
-                </Typography>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  sx={{ mt: 2 }}
-                  fullWidth
-                >
-                  View Details
-                </Button>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
+        <Box>
+          <Box display="flex" flexDirection="column" gap={2}>
+            {(showAll ? paginatedJobs : jobs.slice(0, 3)).map((job) => (
+              <JobCard key={job.id} job={job} />
+            ))}
+          </Box>
+
+          {!showAll ? (
+            <Box mt={2} textAlign="center">
+              <Button variant="contained" onClick={handleSeeAll}>
+                See All
+              </Button>
+            </Box>
+          ) : (
+            <Box mt={4} display="flex" justifyContent="center">
+              <Pagination
+                count={Math.ceil(jobs.length / itemsPerPage)}
+                page={page}
+                onChange={handlePageChange}
+                color="primary"
+              />
+            </Box>
+          )}
+        </Box>
       </Box>
 
       {/* Call to Action */}

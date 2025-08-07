@@ -1,36 +1,37 @@
 import { createTheme } from "@mui/material/styles";
 
-export const getDesignTokens = (mode) => ({
-  palette: {
-    mode,
-    ...(mode === "light"
-      ? {
-          primary: { main: "#1976d2" },
-          primarygreen: { main: "#309689" },
-          secondary: { main: "#9c27b0" },
-          background: {
-            default: "#f5f5f5",
-            paper: "#ffffff",
-          },
-          text: {
-            primary: "#000000",
-            secondary: "#555555",
-          },
-        }
-      : {
-          primary: { main: "#90caf9" },
-          primarygreen: { main: "#309689" },
-          secondary: { main: "#ce93d8" },
-          background: {
-            default: "#121212",
-            paper: "#1e1e1e",
-          },
-          text: {
-            primary: "#ffffff",
-            secondary: "#aaaaaa",
-          },
-        }),
-  },
-});
+const getDesignTokens = (mode) => {
+  const isLight = mode === "light";
 
-export const createAppTheme = (mode) => createTheme(getDesignTokens(mode));
+  return {
+    palette: {
+      mode,
+      primary: {
+        main: "#1976d2",
+      },
+      secondary: {
+        main: isLight ? "#9c27b0" : "#ce93d8",
+      },
+      primarygreen: {
+        main: "#309689",
+      },
+      lightgreen: {
+        main: "#eaf4f3",
+      },
+      background: {
+        default: isLight ? "#f5f5f5" : "#121212",
+        paper: isLight ? "#ffffff" : "#1e1e1e",
+      },
+      text: {
+        primary: isLight ? "#000000" : "#ffffff",
+        secondary: isLight ? "#555555" : "#aaaaaa",
+        green: "#309689",
+        gray: "#6c757d",
+      },
+    },
+  };
+};
+
+const createAppTheme = (mode) => createTheme(getDesignTokens(mode));
+
+export { getDesignTokens, createAppTheme };
