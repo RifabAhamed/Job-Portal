@@ -10,7 +10,7 @@ const Header = () => {
       elevation={0}
       sx={{
         backgroundColor: "rgba(0, 0, 0, 0.6)",
-        backdropFilter: "blur(4px)", // Optional: for a blurred glass effect
+        backdropFilter: "blur(4px)",
         boxShadow: "none",
       }}
     >

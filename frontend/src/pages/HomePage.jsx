@@ -188,12 +188,12 @@ const HomePage = () => {
         </Box>
       </Box>
 
-      <Box sx={{ mt: 6, px: 6 }}>
+      <Box sx={{ mt: 6, px: {xs:1, md:6 }}}>
         <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
           Recent Jobs Available
         </Typography>
         <Box>
-          <Box display="flex" flexDirection="column" gap={2}>
+          <Box display="flex" flexDirection="column" gap={1}>
             {(showAll ? paginatedJobs : jobs.slice(0, 3)).map((job) => (
               <JobCard key={job.id} job={job} />
             ))}

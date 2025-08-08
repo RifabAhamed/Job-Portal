@@ -5,8 +5,9 @@ import {
   Typography,
   Avatar,
   Stack,
+  Button,
 } from "@mui/material";
-import SaveIcon from "../assets/icons/SaveIcon.jsx"
+import SaveIcon from "../assets/icons/SaveIcon.jsx";
 import JobFieldIcon from "../assets/icons/JobFieldIcon.jsx";
 import React from "react";
 import { JobTimeIcon } from "../assets/icons/JobTimeIcon.jsx";
@@ -16,7 +17,10 @@ import { JobSalaryIcon } from "../assets/icons/JobSalaryIcon.jsx";
 // Expected job object structure
 const JobCard = ({ job }) => {
   return (
-    <Card sx={{ p: 2, mb: 2, boxShadow: 3 }} width="100%">
+    <Card
+      sx={{ p: { xs: 1, md: 3 }, mb: { xs: 1, md: 2 }, boxShadow: 2 }}
+      width="100%"
+    >
       {/* Posted Date Label */}
       <Box
         sx={{
@@ -44,7 +48,12 @@ const JobCard = ({ job }) => {
       </Box>
 
       {/* Company Info */}
-      <Stack direction="row" alignItems="center" spacing={2} mb={2}>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        alignItems="center"
+        spacing={2}
+        mb={2}
+      >
         <Avatar src={job.companyIcon} alt={job.companyName} />
         <Box>
           <Typography variant="subtitle1" fontWeight="bold">
@@ -59,97 +68,138 @@ const JobCard = ({ job }) => {
 
       {/* Job Details */}
       <Box
-        mb={1}
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", md: "row" },
+          width: "100%",
           justifyContent: "space-between",
         }}
       >
         <Box
+          mb={1}
           sx={{
-            width: "25%",
             display: "flex",
-            flexDirection: "row",
-            gap: 1,
-            alignItems: "center",
+            flexDirection: { xs: "column", sm: "row" },
+            justifyContent: "space-between",
+            width: { xs: "100%", sm: "80%" },
+            gap: { xs: 1 },
           }}
         >
-          <JobFieldIcon />
-          <Typography
-            variant="body2"
-            sx={{ color: "text.gray", fontWeight: "bold" }}
+          <Box
+            sx={{
+              width: { xs: "100%", md: "63%" },
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              gap: 1,
+              alignItems: "center",
+            }}
           >
-            {job.jobField}
-          </Typography>
+            <Box
+              sx={{
+                width: { xs: "100%", md: "35%" },
+                display: "flex",
+                flexDirection: "row",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              <JobFieldIcon />
+              <Typography
+                variant="body2"
+                sx={{ color: "text.gray", fontWeight: "bold" }}
+              >
+                {job.jobField}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: { xs: "100%", md: "30%" },
+                display: "flex",
+                flexDirection: "row",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              <JobTimeIcon />
+              <Typography
+                variant="body2"
+                sx={{ color: "text.gray", fontWeight: "bold" }}
+              >
+                {job.jobType}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: { xs: "100%", md: "35%" },
+                display: "flex",
+                flexDirection: "row",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              <JobLocationIcon />
+              <Typography
+                variant="body2"
+                sx={{ color: "text.gray", fontWeight: "bold" }}
+              >
+                {job.jobLocation}
+              </Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              width: { xs: "100%", md: "37%" },
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              gap: 1,
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                width: { xs: "100%", md: "40%" },
+                display: "flex",
+                flexDirection: "row",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              <JobFieldIcon />
+              <Typography
+                variant="body2"
+                sx={{ color: "text.gray", fontWeight: "bold" }}
+              >
+                {job.workMode}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: { xs: "100%", md: "60%" },
+                display: "flex",
+                flexDirection: "row",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              <JobSalaryIcon />
+              <Typography
+                variant="body2"
+                sx={{ color: "text.gray", fontWeight: "bold" }}
+              >
+                {job.salary}
+              </Typography>
+            </Box>
+          </Box>
         </Box>
         <Box
           sx={{
-            width: "15%",
-            display: "flex",
-            flexDirection: "row",
-            gap: 1,
-            alignItems: "center",
+            width: { xs: "100%", sm: "100%", md: "20%" },
+            maxWidth: { md: "150px" },
           }}
         >
-          <JobTimeIcon />
-          <Typography
-            variant="body2"
-            sx={{ color: "text.gray", fontWeight: "bold" }}
-          >
-            {job.jobType}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            width: "23%",
-            display: "flex",
-            flexDirection: "row",
-            gap: 1,
-            alignItems: "center",
-          }}
-        >
-          <JobLocationIcon />
-          <Typography
-            variant="body2"
-            sx={{ color: "text.gray", fontWeight: "bold" }}
-          >
-            {job.jobLocation}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            width: "17%",
-            display: "flex",
-            flexDirection: "row",
-            gap: 1,
-            alignItems: "center",
-          }}
-        >
-          <JobFieldIcon />
-          <Typography
-            variant="body2"
-            sx={{ color: "text.gray", fontWeight: "bold" }}
-          >
-            {job.workMode}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            width: "20%",
-            display: "flex",
-            flexDirection: "row",
-            gap: 1,
-            alignItems: "center",
-          }}
-        >
-          <JobSalaryIcon />
-          <Typography
-            variant="body2"
-            sx={{ color: "text.gray", fontWeight: "bold" }}
-          >
-            {job.salary}
-          </Typography>
+          <Button variant="contained" color="primarygreen" fullWidth>
+            Job Details
+          </Button>
         </Box>
       </Box>
     </Card>
