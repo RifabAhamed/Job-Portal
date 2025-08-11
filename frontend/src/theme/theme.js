@@ -18,8 +18,9 @@ const getDesignTokens = (mode) => {
       lightgreen: {
         main: "#eaf4f3",
       },
+      cyangreen: { main: "#9c27b0" },
       background: {
-        default: isLight ? "#f5f5f5" : "#121212",
+        default: isLight ? "#ffffff" : "#121212",
         paper: isLight ? "#ffffff" : "#1e1e1e",
       },
       text: {

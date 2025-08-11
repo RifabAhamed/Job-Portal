@@ -80,7 +80,13 @@ const HomePage = () => {
             <JobSearchComponent />
           </Box>
           <Box
-            sx={{ display: "flex", justifyContent: "center", gap: 8, mt: 8 }}
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: { xs: "flex-start", sm: "center" },
+              gap: { xs: 4, sm: 6, md: 12 },
+              mt: 8,
+            }}
           >
             <Box
               sx={{
@@ -100,6 +106,7 @@ const HomePage = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "start",
+                  width: 96,
                 }}
               >
                 <Typography
@@ -134,6 +141,7 @@ const HomePage = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "start",
+                  width: 96,
                 }}
               >
                 <Typography
@@ -168,6 +176,7 @@ const HomePage = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "start",
+                  width: 96,
                 }}
               >
                 <Typography
@@ -188,7 +197,7 @@ const HomePage = () => {
         </Box>
       </Box>
 
-      <Box sx={{ mt: 6, px: {xs:1, md:6 }}}>
+      <Box sx={{ mt: 6, px: { xs: 1, md: 6 } }}>
         <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
           Recent Jobs Available
         </Typography>
