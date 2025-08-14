@@ -13,9 +13,16 @@ import React from "react";
 import { JobTimeIcon } from "../assets/icons/JobTimeIcon.jsx";
 import { JobLocationIcon } from "../assets/icons/JobLocationIcon.jsx";
 import { JobSalaryIcon } from "../assets/icons/JobSalaryIcon.jsx";
+import { useNavigate } from "react-router-dom";
 
 // Expected job object structure
 const JobCard = ({ job }) => {
+    console.log("Job Details:", job);
+
+  const navigate = useNavigate();
+   const goToDetails = () => {
+     navigate(`/jobDetails/${job.id}`); // dynamic route
+   };
   return (
     <Card
       sx={{ p: { xs: 1, md: 3 }, mb: { xs: 1, md: 2 }, boxShadow: 2 }}
@@ -193,11 +200,16 @@ const JobCard = ({ job }) => {
         </Box>
         <Box
           sx={{
-            width: { xs: "100%", sm: "100%",md:"100%", lg: "20%" },
+            width: { xs: "100%", sm: "100%", md: "100%", lg: "20%" },
             maxWidth: { lg: "150px" },
           }}
         >
-          <Button variant="contained" color="primarygreen" fullWidth>
+          <Button
+            variant="contained"
+            color="primarygreen"
+            fullWidth
+            onClick={goToDetails}
+          >
             Job Details
           </Button>
         </Box>
