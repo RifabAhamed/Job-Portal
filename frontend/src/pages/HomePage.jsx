@@ -18,6 +18,7 @@ import { CandidatesIcon } from "../assets/icons/CandidatesIcon";
 import { CompaniesIcon } from "../assets/icons/CompaniesIcon";
 import JobCard from "../components/JobCard";
 import jobs from "../data/JobsData.js"
+import RecentJobCard from "../components/RecentJobCard.jsx";
 
 
 const itemsPerPage = 6;
@@ -204,7 +205,7 @@ const HomePage = () => {
         <Box>
           <Box display="flex" flexDirection="column" gap={1}>
             {(showAll ? paginatedJobs : jobs.slice(0, 3)).map((job) => (
-              <JobCard key={job.id} job={job} />
+              <RecentJobCard key={job.id} job={job} />
             ))}
           </Box>
 

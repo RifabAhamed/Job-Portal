@@ -15,7 +15,7 @@ import { JobLocationIcon } from "../assets/icons/JobLocationIcon.jsx";
 import { JobSalaryIcon } from "../assets/icons/JobSalaryIcon.jsx";
 
 // Expected job object structure
-const JobCard = ({ job }) => {
+const RecentJobCard = ({ job }) => {
   return (
     <Card
       sx={{ p: { xs: 1, md: 3 }, mb: { xs: 1, md: 2 }, boxShadow: 2 }}
@@ -70,7 +70,7 @@ const JobCard = ({ job }) => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: { xs: "column", lg: "row" },
+          flexDirection: { xs: "column", md: "row" },
           width: "100%",
           justifyContent: "space-between",
         }}
@@ -81,13 +81,13 @@ const JobCard = ({ job }) => {
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
             justifyContent: "space-between",
-            width: { xs: "100%", lg: "80%" },
+            width: { xs: "100%", sm: "80%" },
             gap: { xs: 1 },
           }}
         >
           <Box
             sx={{
-              width: { xs: "100%", lg: "63%" },
+              width: { xs: "100%", md: "63%" },
               display: "flex",
               flexDirection: { xs: "column", md: "row" },
               gap: 1,
@@ -148,7 +148,7 @@ const JobCard = ({ job }) => {
           </Box>
           <Box
             sx={{
-              width: { xs: "100%", lg: "37%" },
+              width: { xs: "100%", md: "37%" },
               display: "flex",
               flexDirection: { xs: "column", md: "row" },
               gap: 1,
@@ -193,8 +193,8 @@ const JobCard = ({ job }) => {
         </Box>
         <Box
           sx={{
-            width: { xs: "100%", sm: "100%",md:"100%", lg: "20%" },
-            maxWidth: { lg: "150px" },
+            width: { xs: "100%", sm: "100%", md: "20%" },
+            maxWidth: { md: "150px" },
           }}
         >
           <Button variant="contained" color="primarygreen" fullWidth>
@@ -206,4 +206,4 @@ const JobCard = ({ job }) => {
   );
 };
 
-export default JobCard;
+export default RecentJobCard;
