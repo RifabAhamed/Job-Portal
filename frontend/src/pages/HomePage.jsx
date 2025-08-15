@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Container,
@@ -19,27 +19,18 @@ import { CompaniesIcon } from "../assets/icons/CompaniesIcon";
 import JobCard from "../components/JobCard";
 import jobs from "../data/JobsData.js"
 import RecentJobCard from "../components/RecentJobCard.jsx";
-
-
-const itemsPerPage = 6;
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  // const handleSeeAll = () => {
+  //   setShowAll(true);
+  // };
+  const navigate = useNavigate();
 
-  const [showAll, setShowAll] = useState(false);
-  const [page, setPage] = useState(1);
-
-  const handleSeeAll = () => {
-    setShowAll(true);
+  const navigateToJobsPage = () => {
+    navigate("/jobs"); // replace with your Jobs page route
   };
 
-  const handlePageChange = (value) => {
-    setPage(value);
-  };
-
-  const paginatedJobs = jobs.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage
-  );
   return (
     <Container maxWidth="" disableGutters sx={{ mt: 0 }}>
       {/* Hero Section */}
@@ -204,27 +195,21 @@ const HomePage = () => {
         </Typography>
         <Box>
           <Box display="flex" flexDirection="column" gap={1}>
-            {(showAll ? paginatedJobs : jobs.slice(0, 3)).map((job) => (
+            {jobs.slice(0, 5).map((job) => (
               <RecentJobCard key={job.id} job={job} />
             ))}
           </Box>
 
-          {!showAll ? (
-            <Box mt={2} textAlign="center">
-              <Button variant="contained" onClick={handleSeeAll}>
-                See All
-              </Button>
-            </Box>
-          ) : (
-            <Box mt={4} display="flex" justifyContent="center">
-              <Pagination
-                count={Math.ceil(jobs.length / itemsPerPage)}
-                page={page}
-                onChange={handlePageChange}
-                color="primary"
-              />
-            </Box>
-          )}
+          <Box mt={2} textAlign="center">
+            <Button
+              variant="text"
+              color="primarygreen"
+              sx={{ textTransform: "none" }}
+              onClick={navigateToJobsPage}
+            >
+              View all
+            </Button>
+          </Box>
         </Box>
       </Box>
 

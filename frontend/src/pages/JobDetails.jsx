@@ -1,29 +1,27 @@
-import { Avatar, Box, Button, Stack, Typography } from '@mui/material'
-import React from 'react'
-import SaveIcon from '../assets/icons/SaveIcon';
-import JobFieldIcon from '../assets/icons/JobFieldIcon';
-import { JobTimeIcon } from '../assets/icons/JobTimeIcon';
-import { JobLocationIcon } from '../assets/icons/JobLocationIcon';
-import { JobSalaryIcon } from '../assets/icons/JobSalaryIcon';
-import jobData from '../data/JobsData';
-import { useParams } from 'react-router-dom';
+import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
+import React from "react";
+import SaveIcon from "../assets/icons/SaveIcon";
+import JobFieldIcon from "../assets/icons/JobFieldIcon";
+import { JobTimeIcon } from "../assets/icons/JobTimeIcon";
+import { JobLocationIcon } from "../assets/icons/JobLocationIcon";
+import { JobSalaryIcon } from "../assets/icons/JobSalaryIcon";
+import jobData from "../data/JobsData";
+import { useParams } from "react-router-dom";
+import MarkImage from "../assets/images/MarkImage.png";
 
 const JobDetails = () => {
-    const { id } = useParams();
-    const job = jobData.find((job) => job.id === parseInt(id));
+  const { id } = useParams();
+  const job = jobData.find((job) => job.id === parseInt(id));
 
-    if (!job) {
-      return <div>Job not found</div>;
-    }
+  if (!job) {
+    return <div>Job not found</div>;
+  }
 
-    console.log("Job Details:", job);
-    
+  console.log("Job Details:", job);
+
   return (
-    <Box>
-      <Box
-        sx={{ p: { xs: 1, md: 3 }, mb: { xs: 1, md: 2 } }}
-        width="100%"
-      >
+    <Box sx={{ mt: 8, padding: { xs: 2, md: 4 } }}>
+      <Box sx={{ p: { xs: 1, md: 3 }, mb: { xs: 1, md: 2 } }} width="100%">
         {/* Posted Date Label */}
         <Box
           sx={{
@@ -200,51 +198,103 @@ const JobDetails = () => {
               maxWidth: { md: "150px" },
             }}
           >
-            <Button variant="contained" color="primarygreen" fullWidth>
+            <Button
+              variant="contained"
+              color="primarygreen"
+              sx={{ textTransform: "none", color: "#ffffff" }}
+              fullWidth
+            >
               Apply Job
             </Button>
           </Box>
         </Box>
       </Box>
-      <Box>
+      <Box sx={{ backgroundColor: "lightgreen.main", borderRadius: "10px" }}>
         {/* Job Description */}
-        <Box sx={{ p: 2, backgroundColor: "background.paper", mb: 2 }}>
-          <Typography variant="h6" fontWeight="bold" mb={1}>
+        <Box sx={{ p: 2 }}>
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            mb={1}
+            sx={{ color: "text.gray" }}
+          >
             Job Description
           </Typography>
-          <Typography variant="body1">{job.jobDescription}</Typography>
+          <Typography variant="body1" sx={{ color: "text.gray" }}>
+            {job.jobDescription}
+          </Typography>
         </Box>
 
         {/* Key Responsibilities */}
-        <Box sx={{ p: 2, backgroundColor: "background.paper", mb: 2 }}>
-          <Typography variant="h6" fontWeight="bold" mb={1}>
+        <Box sx={{ p: 2 }}>
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            mb={1}
+            sx={{ color: "text.gray" }}
+          >
             Key Responsibilities
           </Typography>
           <ul>
             {job.keyResponsibilities.map((responsibility, index) => (
-              <li key={index}>
-                <Typography variant="body1">{responsibility}</Typography>
+              <li
+                key={index}
+                style={{
+                  listStyle: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                <img
+                  src={MarkImage}
+                  alt=""
+                  style={{ width: "20px", height: "20px" }}
+                />
+                <Typography variant="body1" sx={{ color: "text.gray" }}>
+                  {responsibility}
+                </Typography>
               </li>
             ))}
           </ul>
         </Box>
 
         {/* Professional Skills */}
-        <Box sx={{ p: 2, backgroundColor: "background.paper" }}>
-          <Typography variant="h6" fontWeight="bold" mb={1}>
+        <Box sx={{ p: 2 }}>
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            mb={1}
+            sx={{ color: "text.gray" }}
+          >
             Professional Skills
           </Typography>
           <ul>
             {job.professionalSkills.map((skill, index) => (
-              <li key={index}>
-                <Typography variant="body1">{skill}</Typography>
+              <li
+                key={index}
+                style={{
+                  listStyle: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                <img
+                  src={MarkImage}
+                  alt=""
+                  style={{ width: "20px", height: "20px" }}
+                />
+                <Typography variant="body1" sx={{ color: "text.gray" }}>
+                  {skill}
+                </Typography>
               </li>
             ))}
           </ul>
-        </Box>  
+        </Box>
       </Box>
     </Box>
   );
-}
+};
 
-export default JobDetails
+export default JobDetails;

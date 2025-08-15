@@ -207,6 +207,7 @@ const JobCard = ({ job }) => {
           <Button
             variant="contained"
             color="primarygreen"
+            sx={{ textTransform: "none", color: "#ffffff" }}
             fullWidth
             onClick={goToDetails}
           >
