@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 // Expected job object structure
 const JobCard = ({ job }) => {
-    console.log("Job Details:", job);
+    // console.log("Job Details:", job);
 
   const navigate = useNavigate();
    const goToDetails = () => {

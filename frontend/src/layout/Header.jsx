@@ -6,10 +6,14 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ProfileMenu from "../components/ProfileMenu";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const theme = useTheme();
   const isSmScreen = useMediaQuery(theme.breakpoints.down("md"));
+const navigate = useNavigate();
+  const handleLogin = () => navigate("/login");
+  const handleSignup = () => navigate("/signup");
   return (
     <AppBar
       position="fixed"
@@ -43,31 +47,31 @@ const Header = () => {
             Job Portal
           </Typography>
           {isSmScreen && (
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: "50px",
-                  left: "0px",
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: 2,
-                  // justifyContent: "center",
-                }}
-              >
-                <Link href="/" underline="none" color="inherit">
-                  Home
-                </Link>
-                <Link href="/jobs" underline="none" color="inherit">
-                  Jobs
-                </Link>
-                <Link href="/about" underline="none" color="inherit">
-                  About
-                </Link>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50px",
+                left: "0px",
+                display: "flex",
+                flexDirection: "row",
+                gap: 2,
+                // justifyContent: "center",
+              }}
+            >
+              <Link href="/" underline="none" color="inherit">
+                Home
+              </Link>
+              <Link href="/jobs" underline="none" color="inherit">
+                Jobs
+              </Link>
+              <Link href="/about" underline="none" color="inherit">
+                About
+              </Link>
 
-                <Link href="/contact" underline="none" color="inherit">
-                  Contact
-                </Link>
-              </Box>
+              <Link href="/contact" underline="none" color="inherit">
+                Contact
+              </Link>
+            </Box>
           )}
         </Box>
 
@@ -110,6 +114,7 @@ const Header = () => {
             color="inherit"
             sx={{ textTransform: "none" }}
             size={isSmScreen ? "small" : "medium"}
+            onClick={handleLogin}
           >
             Login
           </Button>
@@ -118,6 +123,7 @@ const Header = () => {
             color="primarygreen"
             sx={{ textTransform: "none" }}
             size={isSmScreen ? "small" : "medium"}
+            onClick={handleSignup}
           >
             Register
           </Button>

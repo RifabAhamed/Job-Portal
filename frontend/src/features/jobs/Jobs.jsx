@@ -17,13 +17,11 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import JobImages from "../assets/images/JobImages.jpg";
-import JobsImage from "../assets/images/JobsImage.jpg";
-import JobPic from "../assets/images/JobPic.jpg";
+import JobPic from "../../assets/images/JobPic.jpg";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { SearchIcon } from "../assets/icons/SearchIcon";
-import JobsData from "../data/JobsData.js";
-import JobCard from "../components/JobCard";
+import { SearchIcon } from "../../assets/icons/SearchIcon.jsx";
+import JobsData from "../../data/JobsData.js";
+import JobCard from "../../components/JobCard.jsx";
 import { useTheme, useMediaQuery } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
