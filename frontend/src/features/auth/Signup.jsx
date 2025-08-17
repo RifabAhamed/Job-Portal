@@ -9,10 +9,12 @@ import {
   Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import AuthService from "./AuthService";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -26,9 +28,10 @@ const Signup = () => {
     setError(""); // clear error on input
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Validate fields
     if (
+      !formData.name ||
       !formData.email ||
       !formData.password ||
       !formData.confirmPassword ||
@@ -43,11 +46,23 @@ const Signup = () => {
       return;
     }
 
-    console.log("Signup data:", formData);
-    // TODO: call backend API to create user
+    try {
+      const userData = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+      };
 
-    // Redirect after signup
-    navigate("/login");
+      const response = await AuthService.signup(userData);
+
+      console.log("Signup successful:", response);
+
+      // Redirect after signup
+      navigate("/login");
+    } catch (err) {
+      setError(err); // error comes from AuthService
+    }
   };
 
   return (
@@ -62,7 +77,14 @@ const Signup = () => {
         p: 2,
       }}
     >
-      <Paper sx={{ width: "100%", maxWidth: 400, p: 4, borderRadius: 3 }}>
+      <Paper
+        sx={{
+          width: "100%",
+          maxWidth: 400,
+          p: { xs: 1, sm: 4 },
+          borderRadius: 3,
+        }}
+      >
         <Typography variant="h5" fontWeight="bold" gutterBottom align="center">
           Sign Up
         </Typography>
@@ -73,6 +95,17 @@ const Signup = () => {
           </Alert>
         )}
 
+        <TextField
+          size="small"
+          fullWidth
+          name="name"
+          label="Name"
+          // type=""
+          value={formData.name}
+          onChange={handleChange}
+          margin="normal"
+          required
+        />
         <TextField
           size="small"
           fullWidth

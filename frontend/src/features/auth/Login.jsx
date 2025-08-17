@@ -8,6 +8,7 @@ import {
   Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import AuthService from "./AuthService";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,17 +21,29 @@ const Login = () => {
     setError("");
   };
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     if (!formData.email || !formData.password) {
       setError("Please fill in both email and password.");
       return;
     }
 
-    console.log("Login data:", formData);
-    // TODO: call backend API for login
+    console.log(formData.email)
+    console.log(formData.password)
+    try {
+      
 
-    // Navigate to home or dashboard after successful login
-    navigate("/dashboard");
+      const response = await AuthService.login(
+        formData.email,
+        formData.password
+      );
+
+      console.log("Login successful:", response);
+
+      // Redirect after Login
+      navigate("/");
+    } catch (err) {
+      setError(err); // error comes from AuthService
+    }
   };
 
   return (
@@ -45,7 +58,7 @@ const Login = () => {
         p: 2,
       }}
     >
-      <Paper sx={{ width: "100%", maxWidth: 400, p: 4, borderRadius: 3 }}>
+      <Paper sx={{ width: "100%", maxWidth: 400, p:{xs:1, sm:4}, borderRadius: 3 }}>
         <Typography variant="h5" fontWeight="bold" gutterBottom align="center">
           Login
         </Typography>
