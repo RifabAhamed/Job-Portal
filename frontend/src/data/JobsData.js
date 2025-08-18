@@ -1,4 +1,4 @@
- const jobData = [
+const jobData = [
   {
     id: 1,
     postedDate: "2 days ago",
@@ -10,6 +10,14 @@
     jobLocation: "Mountain View, CA",
     workMode: "Hybrid",
     salary: "$120,000/year",
+    jobDescription:
+      "Design and implement user-facing features using React and modern web technologies.",
+    keyResponsibilities: [
+      "Develop responsive web applications",
+      "Collaborate with UX/UI designers",
+      "Optimize applications for maximum speed",
+    ],
+    professionalSkills: ["React", "JavaScript", "HTML", "CSS", "TypeScript"],
   },
   {
     id: 2,
@@ -22,6 +30,20 @@
     jobLocation: "Menlo Park, CA",
     workMode: "Remote",
     salary: "$110,000/year",
+    jobDescription:
+      "Create engaging and user-friendly designs for web and mobile products.",
+    keyResponsibilities: [
+      "Design product interfaces",
+      "Conduct user research",
+      "Collaborate with developers to implement designs",
+    ],
+    professionalSkills: [
+      "Figma",
+      "Sketch",
+      "User Research",
+      "Prototyping",
+      "UX/UI Design",
+    ],
   },
   {
     id: 3,
@@ -34,6 +56,20 @@
     jobLocation: "Seattle, WA",
     workMode: "Onsite",
     salary: "$65/hour",
+    jobDescription:
+      "Develop and maintain server-side logic and APIs for high-traffic applications.",
+    keyResponsibilities: [
+      "Design scalable backend services",
+      "Optimize database queries",
+      "Integrate with third-party services",
+    ],
+    professionalSkills: [
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "SQL",
+      "API Development",
+    ],
   },
   {
     id: 4,
@@ -46,6 +82,20 @@
     jobLocation: "San Francisco, CA",
     workMode: "Hybrid",
     salary: "$135,000/year",
+    jobDescription:
+      "Analyze large datasets to provide actionable insights and predictive models.",
+    keyResponsibilities: [
+      "Build machine learning models",
+      "Perform data cleaning and analysis",
+      "Communicate insights to stakeholders",
+    ],
+    professionalSkills: [
+      "Python",
+      "R",
+      "SQL",
+      "Machine Learning",
+      "Data Visualization",
+    ],
   },
   {
     id: 5,
@@ -58,6 +108,20 @@
     jobLocation: "Los Gatos, CA",
     workMode: "Remote",
     salary: "$150,000/year",
+    jobDescription:
+      "Develop and deploy machine learning models to enhance user recommendations.",
+    keyResponsibilities: [
+      "Design and implement ML pipelines",
+      "Optimize model performance",
+      "Collaborate with software engineers and data scientists",
+    ],
+    professionalSkills: [
+      "Python",
+      "TensorFlow",
+      "PyTorch",
+      "Data Science",
+      "Algorithm Design",
+    ],
   },
   {
     id: 6,
@@ -70,6 +134,14 @@
     jobLocation: "Redmond, WA",
     workMode: "Onsite",
     salary: "$125,000/year",
+    jobDescription:
+      "Maintain and optimize cloud infrastructure and CI/CD pipelines.",
+    keyResponsibilities: [
+      "Implement automated deployment pipelines",
+      "Monitor system performance",
+      "Manage cloud resources and security",
+    ],
+    professionalSkills: ["AWS", "Azure", "Docker", "Kubernetes", "CI/CD"],
   },
   {
     id: 7,
@@ -82,6 +154,20 @@
     jobLocation: "Remote",
     workMode: "Remote",
     salary: "$40/hour",
+    jobDescription:
+      "Ensure the quality and reliability of software through testing and automation.",
+    keyResponsibilities: [
+      "Create and execute test plans",
+      "Report bugs and issues",
+      "Collaborate with developers to ensure quality",
+    ],
+    professionalSkills: [
+      "Manual Testing",
+      "Selenium",
+      "Jira",
+      "Automation Testing",
+      "Bug Tracking",
+    ],
   },
   {
     id: 8,
@@ -94,6 +180,20 @@
     jobLocation: "New York, NY",
     workMode: "Hybrid",
     salary: "$90,000/year",
+    jobDescription:
+      "Write and maintain technical documentation for APIs and developer tools.",
+    keyResponsibilities: [
+      "Create API documentation",
+      "Collaborate with engineering teams",
+      "Ensure clarity and accuracy in technical content",
+    ],
+    professionalSkills: [
+      "Technical Writing",
+      "Markdown",
+      "APIs",
+      "Documentation Tools",
+      "Editing",
+    ],
   },
   {
     id: 9,
@@ -106,6 +206,20 @@
     jobLocation: "Boston, MA",
     workMode: "Onsite",
     salary: "$115,000/year",
+    jobDescription:
+      "Monitor and protect company systems from cybersecurity threats.",
+    keyResponsibilities: [
+      "Analyze security incidents",
+      "Implement security protocols",
+      "Conduct vulnerability assessments",
+    ],
+    professionalSkills: [
+      "Cybersecurity",
+      "Network Security",
+      "SIEM",
+      "Ethical Hacking",
+      "Incident Response",
+    ],
   },
   {
     id: 10,
@@ -118,6 +232,21 @@
     jobLocation: "Austin, TX",
     workMode: "Hybrid",
     salary: "$130,000/year",
+    jobDescription:
+      "Design and implement embedded systems for automotive applications.",
+    keyResponsibilities: [
+      "Develop firmware for microcontrollers",
+      "Collaborate with hardware engineers",
+      "Test and debug embedded systems",
+    ],
+    professionalSkills: [
+      "C/C++",
+      "Embedded Systems",
+      "RTOS",
+      "Microcontrollers",
+      "Hardware Integration",
+    ],
   },
 ];
+
 export default jobData;

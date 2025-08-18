@@ -1,9 +1,31 @@
-import React from 'react'
+// layout/MainLayout.js
+import React from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import Header from "../layout/Header";
+import Footer from "../layout/Footer";
 
 const MainLayout = () => {
-  return (
-    <div>MainLayout</div>
-  )
-}
+  const location = useLocation();
 
-export default MainLayout
+  // List of routes without header/footer
+  const hideHeaderFooter = [
+    "/login",
+    "/signup",
+    "/createCompany",
+    "/companyProfile",
+  ];
+
+  const shouldHide = hideHeaderFooter.includes(location.pathname);
+
+  return (
+    <>
+      {!shouldHide && <Header />}
+      <main>
+        <Outlet />
+      </main>
+      {!shouldHide && <Footer />}
+    </>
+  );
+};
+
+export default MainLayout;
