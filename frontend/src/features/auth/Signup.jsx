@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AuthService from "./AuthService";
+import CloseIcon from "@mui/icons-material/Close";
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -64,6 +66,9 @@ const Signup = () => {
       setError(err); // error comes from AuthService
     }
   };
+   const handleClose = () => {
+     navigate("/");
+   };
 
   return (
     <Box
@@ -83,8 +88,19 @@ const Signup = () => {
           maxWidth: 400,
           p: { xs: 1, sm: 4 },
           borderRadius: 3,
+          position: "relative",
         }}
       >
+        <CloseIcon
+          onClick={handleClose}
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            padding: 0,
+            margin: 0,
+          }}
+        />
         <Typography variant="h5" fontWeight="bold" gutterBottom align="center">
           Sign Up
         </Typography>

@@ -10,6 +10,8 @@ import CreateCompany from "../features/company/CreateCompany";
 import Login from "../features/auth/Login";
 import Signup from "../features/auth/Signup";
 import CompanyProfile from "../features/company/CompanyProfile";
+import ApplyJob from "../features/jobs/ApplyJob"
+import PrivateRoute from "../utils/PrivateRoute";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +26,14 @@ const AppRoutes = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/createCompany" element={<CreateCompany />} />
         <Route path="/companyProfile" element={<CompanyProfile />} />
+        <Route
+          path="/applyJob/:id"
+          element={
+            <PrivateRoute>
+              <ApplyJob />
+            </PrivateRoute>
+          }
+        />
       </Route>
     </Routes>
   );

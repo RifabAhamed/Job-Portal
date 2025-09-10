@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AuthService from "./AuthService";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,12 +31,13 @@ const Login = () => {
     console.log(formData.email)
     console.log(formData.password)
     try {
-      
-
       const response = await AuthService.login(
         formData.email,
         formData.password
       );
+
+      // Save token in localStorage
+      localStorage.setItem("token", response.token);
 
       console.log("Login successful:", response);
 
@@ -44,6 +46,9 @@ const Login = () => {
     } catch (err) {
       setError(err); // error comes from AuthService
     }
+  };
+  const handleClose = () => {
+    navigate("/");
   };
 
   return (
@@ -58,7 +63,25 @@ const Login = () => {
         p: 2,
       }}
     >
-      <Paper sx={{ width: "100%", maxWidth: 400, p:{xs:1, sm:4}, borderRadius: 3 }}>
+      <Paper
+        sx={{
+          width: "100%",
+          maxWidth: 400,
+          p: { xs: 1, sm: 4 },
+          borderRadius: 3,
+          position: "relative",
+        }}
+      >
+        <CloseIcon
+          onClick={handleClose}
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            padding: 0,
+            margin: 0,
+          }}
+        />
         <Typography variant="h5" fontWeight="bold" gutterBottom align="center">
           Login
         </Typography>
@@ -70,7 +93,7 @@ const Login = () => {
         )}
 
         <TextField
-        size="small"
+          size="small"
           fullWidth
           name="email"
           label="Email"
@@ -81,7 +104,7 @@ const Login = () => {
           required
         />
         <TextField
-        size="small"
+          size="small"
           fullWidth
           name="password"
           type="password"
@@ -93,7 +116,7 @@ const Login = () => {
         />
 
         <Button
-        size="small"
+          size="small"
           variant="contained"
           color="primary"
           fullWidth
