@@ -1,17 +1,23 @@
-import React from "react";
-import { AppBar, Box, Button, FormControl, InputLabel, Link, MenuItem, Select, Toolbar, Typography } from "@mui/material";
-import {JobIcon} from "../assets/icons/JobIcon"
-import { ThemeSwitchButton } from "../components/ThemeSwitchBotton";
+import { AppBar, Box, Button, Link, Toolbar, Typography } from "@mui/material";
+import { JobIcon } from "../assets/icons/JobIcon";
 import { useTheme, useMediaQuery } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ProfileMenu from "../components/ProfileMenu";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const theme = useTheme();
   const isSmScreen = useMediaQuery(theme.breakpoints.down("md"));
-const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check login state on mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token); // true if token exists
+  }, []);
+
   const handleLogin = () => navigate("/login");
   const handleSignup = () => navigate("/signup");
   return (
@@ -109,27 +115,31 @@ const navigate = useNavigate();
             alignItems: "center",
           }}
         >
-          <Button
-            variant="outlined"
-            color="inherit"
-            sx={{ textTransform: "none" }}
-            size={isSmScreen ? "small" : "medium"}
-            onClick={handleLogin}
-          >
-            Login
-          </Button>
-          <Button
-            variant="contained"
-            color="primarygreen"
-            sx={{ textTransform: "none" }}
-            size={isSmScreen ? "small" : "medium"}
-            onClick={handleSignup}
-          >
-            Register
-          </Button>
+          {!isLoggedIn && (
+            <>
+              <Button
+                variant="outlined"
+                color="inherit"
+                sx={{ textTransform: "none" }}
+                size={isSmScreen ? "small" : "medium"}
+                onClick={handleLogin}
+              >
+                Login
+              </Button>
+              <Button
+                variant="contained"
+                color="primarygreen"
+                sx={{ textTransform: "none" }}
+                size={isSmScreen ? "small" : "medium"}
+                onClick={handleSignup}
+              >
+                Register
+              </Button>
+            </>
+          )}
+
           <ProfileMenu />
         </Box>
-        {/* <ThemeSwitchButton /> */}
       </Toolbar>
     </AppBar>
   );

@@ -6,10 +6,11 @@ import { JobTimeIcon } from "../../assets/icons/JobTimeIcon";
 import { JobLocationIcon } from "../../assets/icons/JobLocationIcon";
 import { JobSalaryIcon } from "../../assets/icons/JobSalaryIcon";
 import jobData from "../../data/JobsData";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MarkImage from "../../assets/images/MarkImage.png";
 
 const JobDetails = () => {
+const navigate = useNavigate();
   const { id } = useParams();
   const job = jobData.find((job) => job.id === parseInt(id));
 
@@ -17,7 +18,10 @@ const JobDetails = () => {
     return <div>Job not found</div>;
   }
 
-  // console.log("Job Details:", job);
+  const handleapply = () => {
+     navigate(`/applyJob/${job.id}`); // dynamic route
+   };
+
 
   return (
     <Box sx={{ mt: 8, padding: { xs: 2, md: 4 } }}>
@@ -203,6 +207,7 @@ const JobDetails = () => {
               color="primarygreen"
               sx={{ textTransform: "none", color: "#ffffff" }}
               fullWidth
+              onClick={handleapply}
             >
               Apply Job
             </Button>
