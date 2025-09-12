@@ -12,6 +12,10 @@ const jobSchema = new mongoose.Schema(
       enum: ["full-time", "part-time"],
       default: "full-time",
     },
+    jobField: { type: String }, // new
+    keyResponsibilities: [{ type: String }], // new
+    professionalSkills: [{ type: String }], // new
+    companyIcon: { type: String },
     workMode: {
       type: String,
       enum: ["remote", "onsite", "hybrid"],
