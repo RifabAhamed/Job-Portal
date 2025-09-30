@@ -28,7 +28,10 @@ const AuthService = {
      */
     login: async (email, password) => {
         try {
-            const response = await axios.post(`${API_URL}/login`, { email, password });
+            const response = await axios.post(`${API_URL}/user/login`, {
+              email,
+              password,
+            });
             console.log(email)
             // Optionally store token in localStorage/sessionStorage here
             return response.data;
@@ -46,7 +49,7 @@ const AuthService = {
     signup: async (userData) => {
         try {
             const response = await axios.post(
-              `${API_URL}/register-user`,
+              `${API_URL}/user/register-user`,
               userData
             );
             return response.data;
