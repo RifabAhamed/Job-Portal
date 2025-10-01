@@ -57,6 +57,15 @@ const JobService = {
     return { status: 200, data: jobs };
   },
 
+  async getCompanyJobsPaginated({companyId, page = 1, limit = 10, filter = {} }) {
+    if(!companyId){
+      return {status:400, message:"Company id is required"}
+    }
+
+    const jobs = await JobRepository.getPaginatedJobs(page, limit,{ ...filter, company:companyId});
+    return { status: 200, data: jobs };
+  },
+
   async updateJob(user, jobId, updateData) {
     const job = await JobRepository.findById(jobId);
     if (!job) {
