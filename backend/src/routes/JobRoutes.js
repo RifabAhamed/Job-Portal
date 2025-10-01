@@ -15,6 +15,7 @@ router.post(
 router.get("/getJobDetails/:id", jobController.getJobByIdController);
 
 router.get("/getAllJobs", jobController.getAllJobsPaginatedController);
+router.get("/getCompanyJobs/:companyId", jobController.getCompanyJobsPaginatedController);
 
 router.put(
   "/editJobDetails/:id",

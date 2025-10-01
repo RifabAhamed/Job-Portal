@@ -18,6 +18,12 @@ class JobController {
     res.status(response.status).json(response);
   };
 
+  getCompanyJobsPaginatedController = async (req, res) => {
+    const { companyId } = req.params;
+    const response = await JobService.getCompanyJobsPaginated({companyId, ...req.query});
+    res.status(response.status).json(response);
+  };
+
   updateJobController = async (req, res) => {
     const { id } = req.params;
     const response = await JobService.updateJob(req.user, id, req.body);

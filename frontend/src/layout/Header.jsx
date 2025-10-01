@@ -70,6 +70,9 @@ const Header = () => {
               <Link href="/jobs" underline="none" color="inherit">
                 Jobs
               </Link>
+              <Link href="/companyList" underline="none" color="inherit">
+                Companies
+              </Link>
               <Link href="/about" underline="none" color="inherit">
                 About
               </Link>
@@ -96,10 +99,12 @@ const Header = () => {
             <Link href="/jobs" underline="none" color="inherit">
               Jobs
             </Link>
+            <Link href="/companyList" underline="none" color="inherit">
+              Companies
+            </Link>
             <Link href="/about" underline="none" color="inherit">
               About
             </Link>
-
             <Link href="/contact" underline="none" color="inherit">
               Contact
             </Link>

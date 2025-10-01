@@ -103,14 +103,16 @@ const JobService = {
    * @param {string} companyId
    * @returns {Promise<Object>}
    */
-  // getJobsByCompany: async (companyId) => {
-  //   try {
-  //     const response = await api.get(`/jobs/company/${companyId}`);
-  //     return response.data;
-  //   } catch (error) {
-  //     throw error.response?.data?.message || "Failed to fetch company jobs";
-  //   }
-  // },
+  getJobsByCompany: async (companyId, { page = 1, limit = 10 } = {}) => {
+    try {
+      const response = await api.get(`/job/getCompanyJobs/${companyId}`, {
+        params:{page, limit}
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || "Failed to fetch company jobs";
+    }
+  },
 };
 
 export default JobService;

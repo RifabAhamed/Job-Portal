@@ -38,14 +38,16 @@ const CompanyProfile = () => {
   };
 
   // Fetch jobs posted by the company
-  // const fetchJobs = async () => {
-  //   try {
-  //     const res = await JobService.getJobsByCompany(companyId);
-  //     setJobs(res.data || res);
-  //   } catch (err) {
-  //     console.error("Failed to fetch jobs", err);
-  //   }
-  // };
+  const fetchJobs = async () => {
+    try {
+      const res = await JobService.getJobsByCompany(companyId);
+      setJobs(res.data.jobs || res);
+      console.log(jobs);
+      
+    } catch (err) {
+      console.error("Failed to fetch jobs", err);
+    }
+  };
 
   useEffect(() => {
     if (!companyId) {
@@ -53,7 +55,7 @@ const CompanyProfile = () => {
       return;
     }
     fetchCompany();
-    // fetchJobs();
+    fetchJobs();
   }, [companyId, navigate]);
 
   if (loading)
