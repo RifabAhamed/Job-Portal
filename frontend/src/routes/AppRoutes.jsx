@@ -14,6 +14,7 @@ import ApplyJob from "../features/jobs/ApplyJob"
 import PrivateRoute from "../utils/PrivateRoute";
 import CompanyList from "../features/company/CompanyList";
 import CreateJob from "../features/jobs/CreateJob";
+import MyAccount from "../features/auth/MyAccount";
 
 const AppRoutes = () => {
   return (
@@ -30,6 +31,7 @@ const AppRoutes = () => {
         <Route path="/createCompany" element={<CreateCompany />} />
         <Route path="/companyProfile/:companyId" element={<CompanyProfile />} />
         <Route path="/companyList" element={<CompanyList />} />
+        <Route path="/my-account" element={<MyAccount />} />
         <Route
           path="/applyJob/:id"
           element={
