@@ -17,11 +17,11 @@ import { useNavigate } from "react-router-dom";
 
 // Expected job object structure
 const JobCard = ({ job }) => {
-    // console.log("Job Details:", job);
+    console.log("Job Details:", job);
 
   const navigate = useNavigate();
    const goToDetails = () => {
-     navigate(`/jobDetails/${job.id}`); // dynamic route
+     navigate(`/jobDetails/${job._id}`); // dynamic route
    };
   return (
     <Card
@@ -48,7 +48,7 @@ const JobCard = ({ job }) => {
           }}
         >
           <Typography variant="caption" color="text.green">
-            {job.postedDate}
+            {job.createdAt}
           </Typography>
         </Box>
         <SaveIcon />
@@ -64,11 +64,11 @@ const JobCard = ({ job }) => {
         <Avatar src={job.companyIcon} alt={job.companyName} />
         <Box>
           <Typography variant="subtitle1" fontWeight="bold">
-            {job.jobTitle} — {job.jobField}
+            {job.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {" "}
-            {job.companyName}
+            {job.company.name}
           </Typography>
         </Box>
       </Stack>
@@ -132,7 +132,7 @@ const JobCard = ({ job }) => {
                 variant="body2"
                 sx={{ color: "text.gray", fontWeight: "bold" }}
               >
-                {job.jobType}
+                {job.type}
               </Typography>
             </Box>
             <Box
@@ -149,7 +149,7 @@ const JobCard = ({ job }) => {
                 variant="body2"
                 sx={{ color: "text.gray", fontWeight: "bold" }}
               >
-                {job.jobLocation}
+                {job.location}
               </Typography>
             </Box>
           </Box>

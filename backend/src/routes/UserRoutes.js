@@ -1,7 +1,7 @@
 import express from "express";
 import authenticate from "../middlewares/authMiddleware.js";
 import { loginUserValidationSchema, paginationSchema, registerUserValidationSchema } from "../validations/UserValidations.js";
-import UserController from "../controllers/userController.js";
+import UserController from "../controllers/UserController.js";
 import validate from "../middlewares/validationMiddleware.js"
 import { authorizeRoles } from "../middlewares/authMiddleware.js";
 
