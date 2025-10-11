@@ -16,7 +16,6 @@ class UserController {
     res.status(response.status).json(response);
   }
 
-
   async submitNewPasswordController(req, res) {
     const { token, newPassword } = req.body;
     const response = await UserService.submitNewPassword({
@@ -56,6 +55,20 @@ class UserController {
     }
     const response = await UserService.updateUserRole(id, role);
     res.status(response.status).json(response);
+  }
+
+  async uploadResumeController(req, res) {
+    try {
+      const userId = req.user.id;
+      const file = req.file;
+
+      const response = await UserService.uploadResume(userId, file);
+
+      res.status(response.status).json(response);
+    } catch (error) {
+      console.error("Error in uploadResumeController:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
   }
 }
 
