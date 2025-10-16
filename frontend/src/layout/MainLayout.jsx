@@ -13,6 +13,7 @@ const MainLayout = () => {
     "/signup",
     "/createCompany",
     "/companyProfile",
+    "/my-account"
   ];
 
   const shouldHide = hideHeaderFooter.includes(location.pathname);

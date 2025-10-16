@@ -5,8 +5,6 @@ import {
   Container,
   FormControl,
   FormControlLabel,
-  FormGroup,
-  Input,
   InputAdornment,
   MenuItem,
   Modal,
@@ -16,32 +14,69 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import JobPic from "../../assets/images/JobPic.jpg";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import { SearchIcon } from "../../assets/icons/SearchIcon.jsx";
 import JobsData from "../../data/JobsData.js";
 import JobCard from "../../components/JobCard.jsx";
 import { useTheme, useMediaQuery } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import JobService from "./JobService.js";
 
 // inside your component:
-
 
 const Jobs = () => {
   const theme = useTheme();
   const isSmScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [page, setPage] = useState(1);
-const itemsPerPage = 6;
+  const [jobs, setJobs] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [limit] = useState(6);
+  // const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const paginatedJobs = JobsData.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage
-  );
+  const [age, setAge] = useState("10");
+  const [open, setOpen] = useState(false);
+  const [Filters, setFilters] = useState(false);
+  const [value, setValue] = useState([20, 37]);
 
-   const handlePageChange = (value) => {
-     setPage(value);
-   };
+
+  // const handleChangeSort = (event) => setAge(event.target.value);
+  // const handleSalaryChange = (event, newValue) => setSalaryRange(newValue);
+  const handlePageChange = (event, value) => setPage(value);
+  const itemsPerPage = 6;
+
+ const fetchJobs = async (newPage = page) => {
+   try {
+    //  setLoading(true);
+     setError("");
+
+     const res = await JobService.getAllJobsPaginated({
+       page: newPage,
+       limit,
+     });
+
+     if (res?.data?.jobs) {
+       setJobs(res.data.jobs);
+       setTotal(res.data.total || 0);
+       console.log(res.data.jobs);
+       
+     } else {
+       setJobs([]);
+       setTotal(0);
+     }
+   } catch (err) {
+     setError(err?.toString() || "Failed to fetch jobs");
+   } finally {
+    //  setLoading(false);
+   }
+ };
+
+ useEffect(() => {
+   fetchJobs(page);
+ }, [page]);
+
+  
 
   const style = {
     position: "absolute",
@@ -54,14 +89,12 @@ const itemsPerPage = 6;
     boxShadow: 24,
     p: 4,
   };
-  const [age, setAge] = React.useState("10");
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
 
-  const [open, setOpen] = React.useState(false);
-  const [Filters, setFilters] = React.useState(false);
+  // const [Filters, setFilters] = React.useState(false);
 
   const openFilters = () => setFilters(true);
   const closeFilters = () => setFilters(false);
@@ -69,7 +102,7 @@ const itemsPerPage = 6;
   const openCategories = () => setOpen(true);
   const closeCategories = () => setOpen(false);
 
-  const [value, setValue] = React.useState([20, 37]);
+  // const [value, setValue] = React.useState([20, 37]);
 
   const changeSalary = (event, newValue) => {
     setValue(newValue);
@@ -79,8 +112,6 @@ const itemsPerPage = 6;
     return `${value}°C`;
   }
 
-  
-  
   const FilterComponent = () => {
     return (
       <Box sx={{ padding: "10px", width: { xs: "100%", md: "350px" } }}>
@@ -349,8 +380,7 @@ const itemsPerPage = 6;
         </Box>
       </Box>
     );
-  }
-  
+  };
 
   // const [checked, setChecked] = React.useState(true);
 
@@ -406,7 +436,7 @@ const itemsPerPage = 6;
               aria-describedby="modal-modal-description"
             >
               <Box sx={{ overflowY: "auto", padding: "10px", width: "100%" }}>
-                <Box sx={{height:"90vh"}}>
+                <Box sx={{ height: "90vh" }}>
                   <FilterComponent />
                 </Box>
               </Box>
@@ -454,8 +484,8 @@ const itemsPerPage = 6;
             </Box>
             <Box>
               <Box display="flex" flexDirection="column" gap={1}>
-                {paginatedJobs.map((job) => (
-                  <JobCard key={job.id} job={job} />
+                {jobs.map((job) => (
+                  <JobCard key={job._id} job={job} />
                 ))}
               </Box>
               <Box mt={4} display="flex" justifyContent="center">

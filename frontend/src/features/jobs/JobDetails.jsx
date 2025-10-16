@@ -1,25 +1,47 @@
 import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SaveIcon from "../../assets/icons/SaveIcon";
 import JobFieldIcon from "../../assets/icons/JobFieldIcon";
 import { JobTimeIcon } from "../../assets/icons/JobTimeIcon";
 import { JobLocationIcon } from "../../assets/icons/JobLocationIcon";
 import { JobSalaryIcon } from "../../assets/icons/JobSalaryIcon";
-import jobData from "../../data/JobsData";
 import { useNavigate, useParams } from "react-router-dom";
 import MarkImage from "../../assets/images/MarkImage.png";
+import JobService from "../jobs/JobService.js";
 
 const JobDetails = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const { id } = useParams();
-  const job = jobData.find((job) => job.id === parseInt(id));
 
-  if (!job) {
-    return <div>Job not found</div>;
-  }
+  const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+
+ const fetchJobDetails = async (jobId) => {
+   try {
+     setLoading(true);
+     setError("");
+     const res = await JobService.getJob(jobId); // replace with your API
+     if (res?.data) {
+       setJob(res.data);
+     } else {
+       setError("Job not found");
+     }
+   } catch (err) {
+     setError("Failed to fetch job details", err);
+   } finally {
+     setLoading(false);
+   }
+ };
+
+ useEffect(() => {
+   if (id) fetchJobDetails(id);
+ }, [id]);
+
 
   const handleapply = () => {
-     navigate(`/applyJob/${job.id}`); // dynamic route
+     navigate(`/applyJob/${job._id}`); // dynamic route
    };
 
 
@@ -46,7 +68,7 @@ const navigate = useNavigate();
             }}
           >
             <Typography variant="caption" color="text.green">
-              {job.postedDate}
+              {job?.createdAt}
             </Typography>
           </Box>
           <SaveIcon />
@@ -59,14 +81,14 @@ const navigate = useNavigate();
           spacing={2}
           mb={2}
         >
-          <Avatar src={job.companyIcon} alt={job.companyName} />
+          <Avatar src={job?.companyIcon} alt={job?.companyName} />
           <Box>
             <Typography variant="subtitle1" fontWeight="bold">
-              {job.jobTitle} — {job.jobField}
+              {job?.title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {" "}
-              {job.companyName}
+              {job?.company?.name}
             </Typography>
           </Box>
         </Stack>
@@ -113,7 +135,7 @@ const navigate = useNavigate();
                   variant="body2"
                   sx={{ color: "text.gray", fontWeight: "bold" }}
                 >
-                  {job.jobField}
+                  {job?.jobField}
                 </Typography>
               </Box>
               <Box
@@ -130,7 +152,7 @@ const navigate = useNavigate();
                   variant="body2"
                   sx={{ color: "text.gray", fontWeight: "bold" }}
                 >
-                  {job.jobType}
+                  {job?.type}
                 </Typography>
               </Box>
               <Box
@@ -147,7 +169,7 @@ const navigate = useNavigate();
                   variant="body2"
                   sx={{ color: "text.gray", fontWeight: "bold" }}
                 >
-                  {job.jobLocation}
+                  {job?.company?.location}
                 </Typography>
               </Box>
             </Box>
@@ -174,7 +196,7 @@ const navigate = useNavigate();
                   variant="body2"
                   sx={{ color: "text.gray", fontWeight: "bold" }}
                 >
-                  {job.workMode}
+                  {job?.workMode}
                 </Typography>
               </Box>
               <Box
@@ -191,7 +213,7 @@ const navigate = useNavigate();
                   variant="body2"
                   sx={{ color: "text.gray", fontWeight: "bold" }}
                 >
-                  {job.salary}
+                  {job?.salary}
                 </Typography>
               </Box>
             </Box>
@@ -226,7 +248,7 @@ const navigate = useNavigate();
             Job Description
           </Typography>
           <Typography variant="body1" sx={{ color: "text.gray" }}>
-            {job.jobDescription}
+            {job?.description}
           </Typography>
         </Box>
 
@@ -241,7 +263,7 @@ const navigate = useNavigate();
             Key Responsibilities
           </Typography>
           <ul>
-            {job.keyResponsibilities.map((responsibility, index) => (
+            {job?.keyResponsibilities.map((responsibility, index) => (
               <li
                 key={index}
                 style={{
@@ -275,7 +297,7 @@ const navigate = useNavigate();
             Professional Skills
           </Typography>
           <ul>
-            {job.professionalSkills.map((skill, index) => (
+            {job?.professionalSkills.map((skill, index) => (
               <li
                 key={index}
                 style={{

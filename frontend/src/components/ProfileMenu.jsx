@@ -26,6 +26,11 @@ export default function ProfileMenu() {
     setAnchorEl(null);
   };
 
+  const navigateToAccount = () =>{
+    handleClose();
+    navigate("/my-account");
+  }
+
   const handleLogin = () => {
     handleClose();
     navigate("/login");
@@ -55,10 +60,7 @@ export default function ProfileMenu() {
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {isLoggedIn
           ? [
-              <MenuItem key="profile" disabled onClick={handleClose}>
-                Profile
-              </MenuItem>,
-              <MenuItem key="account" onClick={handleClose}>
+              <MenuItem key="account" onClick={navigateToAccount}>
                 My account
               </MenuItem>,
               <MenuItem key="theme" onClick={handleClose}>

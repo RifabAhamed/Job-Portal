@@ -1,9 +1,10 @@
 import express from "express";
 import authenticate from "../middlewares/authMiddleware.js";
 import { loginUserValidationSchema, paginationSchema, registerUserValidationSchema } from "../validations/UserValidations.js";
-import UserController from "../controllers/userController.js";
+import UserController from "../controllers/UserController.js";
 import validate from "../middlewares/validationMiddleware.js"
 import { authorizeRoles } from "../middlewares/authMiddleware.js";
+import upload from "../configs/cloudinaryConfig.js";
 
 
 const router = express.Router();
@@ -47,6 +48,12 @@ router.patch(
   userController.updateUserRoleController
 );
 
+router.post(
+  "/upload-resume",
+  authenticate, // 1. Check if the user is logged in
+  upload.single("resume"), // 2. Process the file upload
+  userController.uploadResumeController // 3. Pass control to the controller
+);
 
 
 export default router;

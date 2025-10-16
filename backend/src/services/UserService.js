@@ -12,7 +12,7 @@ const UserService = {
     if (!isMatch) return { status: 401, message: "Invalid email or password" };
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: "1d",
     });
 
     return {
@@ -120,6 +120,33 @@ const UserService = {
       status: 200,
       message: "User role updated",
       data: updatedUser,
+    };
+  },
+
+  async uploadResume(userId, file) {
+    if (!file) {
+      return { status: 400, message: "No file uploaded." };
+    }
+
+    const user = await UserRepository.findById(userId);
+    if (!user) {
+      return { status: 404, message: "User not found." };
+    }
+
+    // Update the user's resume field with the Cloudinary details
+    // The 'path' from Cloudinary is the secure URL
+    // The 'filename' from Cloudinary is the public_id
+    user.resume = {
+      url: file.path,
+      public_id: file.filename,
+    };
+    await user.save();
+
+    // 4. Return a success response with the updated data
+    return {
+      status: 200,
+      message: "Resume uploaded successfully!",
+      data: user.resume,
     };
   },
 };
