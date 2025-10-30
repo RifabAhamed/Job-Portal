@@ -70,6 +70,8 @@ const Jobs = () => {
    } finally {
     //  setLoading(false);
    }
+   console.log(total);
+   console.log(error);
  };
 
  useEffect(() => {
