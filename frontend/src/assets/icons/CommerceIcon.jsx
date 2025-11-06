@@ -9,7 +9,7 @@ export const CommerceIcon = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_6_2657)">
+      <g clipPath="url(#clip0_6_2657)">
         <mask
           id="mask0_6_2657"
           style="mask-type:luminance"
@@ -37,17 +37,17 @@ export const CommerceIcon = () => {
             <path
               d="M35.8681 39.0156H4.13281L7.12547 10.517H32.8755L35.8681 39.0156Z"
               stroke="#309689"
-              stroke-width="2"
-              stroke-miterlimit="10"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeMiterlimit="10"
+              strokeLinejoin="round"
             />
             <path
               d="M13.9219 14.2715V8.06289C13.9219 4.70594 16.6432 1.98461 20.0002 1.98461C23.3571 1.98461 26.0784 4.70594 26.0784 8.06289V14.2715"
               stroke="#309689"
-              stroke-width="2"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </g>
         </g>

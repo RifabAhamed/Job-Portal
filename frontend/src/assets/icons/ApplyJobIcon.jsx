@@ -10,7 +10,7 @@ export const ApplyJobIcon = () => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect y="0.5" width="60" height="60" rx="8" fill="white" />
-      <g clip-path="url(#clip0_1_2496)">
+      <g clipPath="url(#clip0_1_2496)">
         <mask
           id="mask0_1_2496"
           style="mask-type:luminance"
@@ -26,10 +26,10 @@ export const ApplyJobIcon = () => {
           <path
             d="M37.7361 25.2589L27.2537 35.7412L22.2637 30.7512"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <mask
             id="mask1_1_2496"
@@ -46,10 +46,10 @@ export const ApplyJobIcon = () => {
             <path
               d="M48.4375 30.5C48.4375 40.6827 40.1827 48.9375 30 48.9375C19.8173 48.9375 11.5625 40.6827 11.5625 30.5C11.5625 20.3173 19.8173 12.0625 30 12.0625C40.1827 12.0625 48.4375 20.3173 48.4375 30.5Z"
               stroke="#309689"
-              stroke-width="2"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </g>
         </g>
