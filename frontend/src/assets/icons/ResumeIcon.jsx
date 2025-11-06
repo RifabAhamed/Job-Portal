@@ -10,7 +10,7 @@ export const ResumeIcon = () => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect y="0.5" width="60" height="60" rx="8" fill="white" />
-      <g clip-path="url(#clip0_1_2460)">
+      <g clipPath="url(#clip0_1_2460)">
         <mask
           id="mask0_1_2460"
           style="mask-type:luminance"
@@ -38,43 +38,43 @@ export const ResumeIcon = () => {
             <path
               d="M43.8526 18.2084V48.9375H16.145V12.0778H36.1458L43.8526 18.2084Z"
               stroke="#309689"
-              stroke-width="2"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M36.146 12.0778V18.2084H43.8528L36.146 12.0778Z"
               stroke="#309689"
-              stroke-width="2"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeMiterlimit="10"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </g>
           <path
             d="M22.1875 30.5H37.8125"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M22.1875 39.875H37.8125"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M28.3334 24.3541H22.1875V18.2083H28.3334V24.3541Z"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </g>
       </g>

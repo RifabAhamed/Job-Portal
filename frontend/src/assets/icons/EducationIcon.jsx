@@ -24,34 +24,34 @@ export const EducationIcon = () => {
         <path
           d="M20 16.9229L2.11328 10.9606L20 4.99842L37.8867 10.9606L20 16.9229Z"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M9.27734 13.3469V24.079C15.2053 30.0062 24.815 30.0062 30.7414 24.079V13.3469L20.0094 16.9243L9.27734 13.3469Z"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M35.4922 12.076V27.6572"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M37.887 30.0397C37.887 28.7226 36.8197 27.6549 35.5021 27.6549C34.1859 27.6549 33.1172 28.7226 33.1172 30.0397V36.002H37.887V30.0397Z"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
     </svg>

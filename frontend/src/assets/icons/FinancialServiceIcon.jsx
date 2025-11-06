@@ -9,7 +9,7 @@ export const FinancialServiceIcon = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_6_2405)">
+      <g clipPath="url(#clip0_6_2405)">
         <mask
           id="mask0_6_2405"
           style="mask-type:luminance"
@@ -25,56 +25,56 @@ export const FinancialServiceIcon = () => {
           <path
             d="M24.7656 29.9531C24.7656 31.2476 25.815 32.2969 27.1094 32.2969C28.4038 32.2969 29.4531 31.2476 29.4531 29.9531C29.4531 28.6587 28.4038 27.6094 27.1094 27.6094C25.815 27.6094 24.7656 26.5601 24.7656 25.2656C24.7656 23.9712 25.815 22.9219 27.1094 22.9219C28.4038 22.9219 29.4531 23.9555 29.4531 25.25"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
+            strokeWidth="2"
+            strokeMiterlimit="10"
           />
           <path
             d="M27.1094 19.4062V22.9219"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
+            strokeWidth="2"
+            strokeMiterlimit="10"
           />
           <path
             d="M27.1094 32.297V35.7969"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
+            strokeWidth="2"
+            strokeMiterlimit="10"
           />
           <path
             d="M38.8281 27.6094C38.8281 34.0815 33.5815 39.3281 27.1094 39.3281C20.6373 39.3281 15.3906 34.0815 15.3906 27.6094C15.3906 21.1373 20.6373 15.8906 27.1094 15.8906C33.5815 15.8906 38.8281 21.1373 38.8281 27.6094Z"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
+            strokeWidth="2"
+            strokeMiterlimit="10"
           />
           <path
             d="M24.7656 7.53125C24.7656 10.7673 19.519 13.3906 13.0469 13.3906C6.57476 13.3906 1.17188 10.7673 1.17188 7.53125C1.17188 4.29523 6.57476 1.67188 13.0469 1.67188C19.519 1.67188 24.7656 4.29523 24.7656 7.53125Z"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
+            strokeWidth="2"
+            strokeMiterlimit="10"
           />
           <path
             d="M18.2149 19.9791C16.656 20.3627 14.9018 20.5781 13.0469 20.5781C6.57483 20.5781 1.17194 17.9548 1.17194 14.7188"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
+            strokeWidth="2"
+            strokeMiterlimit="10"
           />
           <path
             d="M1.17188 7.53125V28.7813C1.17188 32.0173 6.57477 34.6406 13.0469 34.6406C14.5965 34.6406 16.0759 34.4902 17.4298 34.217"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
+            strokeWidth="2"
+            strokeMiterlimit="10"
           />
           <path
             d="M24.7656 7.53117V16.125"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
+            strokeWidth="2"
+            strokeMiterlimit="10"
           />
           <path
             d="M15.3912 27.4921C14.6337 27.569 13.8498 27.6094 13.0469 27.6094C6.57476 27.6094 1.17188 24.986 1.17188 21.75"
             stroke="#309689"
-            stroke-width="2"
-            stroke-miterlimit="10"
+            strokeWidth="2"
+            strokeMiterlimit="10"
           />
         </g>
       </g>
