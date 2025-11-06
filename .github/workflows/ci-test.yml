@@ -1,0 +1,64 @@
+# .github/workflows/ci-test.yml
+
+name: CI - Run Tests
+
+# Triggers:
+# 1. On pushes to the 'development' branch
+# 2. On pull requests targeting 'main' or 'development'
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ main, development ]
+
+jobs:
+  # Job to test the backend
+  test-backend:
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./backend # Run commands from the backend folder
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install dependencies
+      run: npm install
+      
+    # ❗️ IMPORTANT: Your backend 'npm test' script is set to fail.
+    # When you add real tests (like Jest), uncomment the step below.
+    # - name: Run tests
+    #   run: npm test
+
+  # Job to test the frontend (lint + build)
+  test-frontend:
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./frontend # Run commands from the frontend folder
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run linter
+      run: npm run lint
+      
+    - name: Run build (this is a great test)
+      run: npm run build

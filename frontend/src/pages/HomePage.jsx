@@ -140,7 +140,7 @@ const HomePage = () => {
                   variant="body1"
                   sx={{ display: "block", fontWeight: "bold" }}
                 >
-                  10,250
+                  10,300
                 </Typography>
                 <Typography
                   variant="caption"

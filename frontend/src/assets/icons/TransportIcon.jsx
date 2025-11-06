@@ -12,10 +12,10 @@ export const TransportIcon = () => {
       <path
         d="M33.7036 33.4023H6.28516V7.89818H33.7036V33.4023Z"
         stroke="#309689"
-        stroke-width="2"
-        stroke-miterlimit="10"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <mask
         id="mask0_6_1879"
@@ -32,58 +32,58 @@ export const TransportIcon = () => {
         <path
           d="M33.7036 7.89844V6.63323C33.7036 4.4132 31.907 2.61347 29.6909 2.61347H10.298C8.08177 2.61347 6.28516 4.4132 6.28516 6.63323V7.89844"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M33.7148 8.86523C36.021 8.86523 37.8907 10.6301 37.8907 12.8071V15.1367H33.7148"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M6.28913 8.86523C3.98293 8.86523 2.11328 10.6301 2.11328 12.8071V15.1367H6.28913"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M13.0445 33.4023V38.3867H7.16016V33.4023"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M32.8296 33.4023V38.3867H26.9453V33.4023"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M6.29297 24.5068H33.7001"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M20.2852 24.4961C20.2852 22.0198 22.2926 20.0123 24.7689 20.0123C27.2452 20.0123 29.2527 22.0198 29.2527 24.4961"
           stroke="#309689"
-          stroke-width="2"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
     </svg>
