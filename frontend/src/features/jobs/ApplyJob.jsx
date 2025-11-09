@@ -1,9 +1,11 @@
+import { Box } from '@mui/material'
 import React from 'react'
 
 const ApplyJob = () => {
-  return (
-    <div>ApplyJob</div>
-  )
+  return <Box>
+    <>
+    </>
+  </Box>;
 }
 
 export default ApplyJob
