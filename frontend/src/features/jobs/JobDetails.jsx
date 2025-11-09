@@ -20,31 +20,27 @@ import { useParams } from "react-router-dom";
 import MarkImage from "../../assets/images/MarkImage.png";
 import JobService from "../jobs/JobService.js";
 import Skeleton from "@mui/material/Skeleton";
+import AuthService from "../auth/AuthService.js";
 
 const JobDetails = () => {
-  // const navigate = useNavigate();
   const { id } = useParams();
-
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
   // const [application, setApplication] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
-  const [userProfile, setUserProfile] = useState(null);
-
-  // Form input states
+  const [user, setUser] = useState(null);
   const [coverLetter, setCoverLetter] = useState("");
+  const [resumeUrl, setResumeUrl] = useState("");
   const [newResumeFile, setNewResumeFile] = useState(null);
-
-  // Loading states
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fetchJobDetails = async (jobId) => {
     try {
       setLoading(true);
       setError("");
-      const res = await JobService.getJob(jobId); // replace with your API
+      const res = await JobService.getJob(jobId);
       if (res?.data) {
         setJob(res.data);
       } else {
@@ -66,114 +62,97 @@ const JobDetails = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: { xs: "90%", sm: 400 }, // Responsive width
-    bgcolor: "lightgreen.main", // Using your color
+    width: { xs: "90%", sm: 600 },
+    bgcolor: "lightgreen.main",
     borderRadius: "10px",
     boxShadow: 24,
-    p: 4, // Add some padding
+    p: 4,
   };
-  // const handleapply = () => {
-  //    navigate(`/applyJob/${job._id}`); // dynamic route
 
-  //  };
-const handleOpen = async () => {
-  setOpen(true);
-  setModalLoading(true);
+  const handleOpen = async () => {
+    setOpen(true);
+    setModalLoading(true);
+    setNewResumeFile(null);
+    setCoverLetter("");
+    await fetchUser();
+  };
+  
 
-  // Clear old form state
-  setNewResumeFile(null);
-  setCoverLetter("");
-
-  try {
-    // *** IMPORTANT: Fetch the CURRENT USER's profile data ***
-    // This should return their default saved resume URL.
-    // Replace this with your actual API call.
-    // const res = await UserService.getUserProfile();
-
-    // MOCK DATA (Remove this and use your API)
-    const mockApiCall = () =>
-      new Promise((resolve) =>
-        setTimeout(
-          () =>
-            resolve({
-              data: {
-                // This is the user's currently saved resume
-                resumeUrl:
-                  "https://res.cloudinary.com/demo/image/upload/default_resume.pdf",
-              },
-            }),
-          1000
-        )
-      );
-    const res = await mockApiCall();
-    // MOCK DATA END
-
-    if (res?.data) {
-      setUserProfile(res.data);
+  const fetchUser = async () => {
+    try {
+      const res = await AuthService.getCurrentUser();
+      setUser(res?.data);
+      setResumeUrl(res?.data?.resume?.url || "");
+    } catch (err) {
+      console.error("Failed to fetch user profile", err);
+    } finally {
+      setModalLoading(false);
     }
-  } catch (err) {
-    console.error("Failed to fetch user profile", err);
-  } finally {
-    setModalLoading(false);
-  }
-};
+  };
 
-const handleClose = () => {
-  if (isSubmitting) return; // Don't close while submitting
-  setOpen(false);
-  setUserProfile(null); // Clear data
-};
 
-const handleFileChange = (event) => {
-  if (event.target.files && event.target.files[0]) {
-    setNewResumeFile(event.target.files[0]);
-  }
-};
+  useEffect(() => {
+    fetchUser();
+  }, []);
+  
+  useEffect(() => {
+  }, [user]);
 
-const handleSubmitApplication = async () => {
-  setIsSubmitting(true);
-  let finalResumeUrl = userProfile.resumeUrl; // Start with the default
+  const handleClose = () => {
+    if (isSubmitting) return; // Don't close while submitting
+    setOpen(false);
+    setUser(null); // Clear data
+  };
 
-  try {
-    // 1. If a new file is selected, upload it
-    if (newResumeFile) {
-      console.log("Uploading new resume...", newResumeFile.name);
-      // --- YOU MUST IMPLEMENT THIS ---
-      // This function needs to upload 'newResumeFile' to Cloudinary
-      // and return the new URL.
-      // const uploadRes = await FileUploadService.upload(newResumeFile);
-      // finalResumeUrl = uploadRes.data.secure_url;
-
-      // MOCK UPLOAD (replace this)
-      await new Promise((res) => setTimeout(res, 1500)); // fake network delay
-      finalResumeUrl = `https://res.cloudinary.com/demo/image/upload/${newResumeFile.name}`;
-      // --- END MOCK UPLOAD ---
+  const handleFileChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setNewResumeFile(event.target.files[0]);
     }
+  };
 
-    // 2. Submit the application
-    const applicationData = {
-      jobId: id,
-      resumeUrl: finalResumeUrl,
-      coverLetter: coverLetter,
-    };
+  const handleSubmitApplication = async () => {
+    setIsSubmitting(true);
+    let finalResumeUrl = user.resumeUrl; // Start with the default
 
-    console.log("Submitting application:", applicationData);
-    // const submitRes = await ApplicationService.submit(applicationData);
+    try {
+      if (newResumeFile) {
+        console.log("Uploading new resume...", newResumeFile.name);
+        // --- YOU MUST IMPLEMENT THIS ---
+        // This function needs to upload 'newResumeFile' to Cloudinary
+        // and return the new URL.
+        // const uploadRes = await FileUploadService.upload(newResumeFile);
+        // finalResumeUrl = uploadRes.data.secure_url;
 
-    // MOCK SUBMIT (replace this)
-    await new Promise((res) => setTimeout(res, 1000));
-    // --- END MOCK SUBMIT ---
+        // MOCK UPLOAD (replace this)
+        await new Promise((res) => setTimeout(res, 1500)); // fake network delay
+        finalResumeUrl = `https://res.cloudinary.com/demo/image/upload/${newResumeFile.name}`;
+        // --- END MOCK UPLOAD ---
+      }
 
-    // Success
-    setIsSubmitting(false);
-    handleClose();
-    // You should show a success message here (e.g., Snackbar)
-  } catch (err) {
-    console.error("Failed to submit application", err);
-    setIsSubmitting(false);
-    // Show an error to the user
-  }
-};
+      // 2. Submit the application
+      const applicationData = {
+        jobId: id,
+        resumeUrl: finalResumeUrl,
+        coverLetter: coverLetter,
+      };
+
+      console.log("Submitting application:", applicationData);
+      // const submitRes = await ApplicationService.submit(applicationData);
+
+      // MOCK SUBMIT (replace this)
+      await new Promise((res) => setTimeout(res, 1000));
+      // --- END MOCK SUBMIT ---
+
+      // Success
+      setIsSubmitting(false);
+      handleClose();
+      // You should show a success message here (e.g., Snackbar)
+    } catch (err) {
+      console.error("Failed to submit application", err);
+      setIsSubmitting(false);
+      // Show an error to the user
+    }
+  };
 
   return error ? (
     error
@@ -480,42 +459,80 @@ const handleSubmitApplication = async () => {
             <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
               <CircularProgress />
             </Box>
-          ) : userProfile ? (
-            // --- Application Form ---
+          ) : user ? (
             <Box
               component="form"
               sx={{ mt: 2, maxHeight: "70vh", overflowY: "auto" }}
             >
-              {/* --- Resume Section --- */}
               <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                 Resume
               </Typography>
-              <Typography variant="body2" sx={{ mb: 1 }}>
-                Your current resume is on file. You can upload a new one for
-                this application.
-              </Typography>
-              <Link href={userProfile.resumeUrl} target="_blank" rel="noopener">
-                View Current Resume
-              </Link>
-
-              <Button
-                variant="outlined"
-                component="label" // This is key
-                fullWidth
-                sx={{ mt: 2, mb: 1 }}
-              >
+              {resumeUrl ? (
+                <Box
+                  sx={{
+                    border: "1px solid #ccc",
+                    borderRadius: "8px",
+                    overflow: "hidden",
+                    height: 400,
+                    mb: 2,
+                  }}
+                >
+                  <iframe
+                    src={resumeUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: "none" }}
+                    title="Resume Preview"
+                  />
+                </Box>
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  No any resume available .
+                </Typography>
+              )}
+              <Typography variant="h6" sx={{ fontWeight: "bold", mt: 2 }}>
                 Upload New Resume
+              </Typography>
                 <Input
                   type="file"
                   hidden
                   onChange={handleFileChange}
                   accept=".pdf,.doc,.docx"
                 />
-              </Button>
               {newResumeFile && (
-                <Typography variant="body2" color="text.secondary">
-                  Selected: {newResumeFile.name}
-                </Typography>
+                <Box sx={{ mt: 1 }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 1 }}
+                  >
+                    Selected: {newResumeFile.name}
+                  </Typography>
+
+                  {newResumeFile.type === "application/pdf" ? (
+                    <Box
+                      sx={{
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        overflow: "hidden",
+                        height: 400,
+                      }}
+                    >
+                      <iframe
+                        src={URL.createObjectURL(newResumeFile)}
+                        width="100%"
+                        height="100%"
+                        style={{ border: "none" }}
+                        title="New Resume Preview"
+                      />
+                    </Box>
+                  ) : (
+                    <Typography variant="body2" color="text.secondary">
+                      Preview unavailable for this file type. Please upload a
+                      PDF to preview.
+                    </Typography>
+                  )}
+                </Box>
               )}
 
               {/* --- Cover Letter Section --- */}
