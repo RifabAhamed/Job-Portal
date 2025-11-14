@@ -60,13 +60,29 @@ const AuthService = {
 
   getCurrentUser: async () => {
     try {
-      const response = await api.get("/user/auth"); 
+      const response = await api.get("/user/auth");
       return response.data;
     } catch (error) {
       throw error.response?.data?.message || "Failed to fetch user details";
     }
   },
 
+  uploadResume: async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("resume", file);
+
+      const response = await api.post("/user/upload-resume", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || "Resume upload failed";
+    }
+  },
   /**
    * Logout user (optional, if backend supports).
    */
