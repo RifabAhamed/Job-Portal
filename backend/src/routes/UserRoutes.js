@@ -40,7 +40,6 @@ router.post(
   userController.registerUserController
 );
 
-
 router.patch(
   "/role/:id",
   authenticate,
@@ -54,6 +53,17 @@ router.post(
   upload.single("resume"), // 2. Process the file upload
   userController.uploadResumeController // 3. Pass control to the controller
 );
+
+router.get("/resume", authenticate, userController.viewResumeController);
+
+router.put(
+  "/resume",
+  authenticate,
+  upload.single("resume"),
+  userController.updateResumeController
+);
+
+router.delete("/resume", authenticate, userController.deleteResumeController);
 
 
 export default router;

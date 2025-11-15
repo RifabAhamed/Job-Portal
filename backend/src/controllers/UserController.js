@@ -70,6 +70,28 @@ class UserController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  async viewResumeController(req, res) {
+    try {
+      const userId = req.user.id;
+      const response = await UserService.viewResume(userId);
+      res.status(response.status).json(response);
+    } catch (error) {
+      console.error("Error in viewResumeController:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async updateResumeController(req, res) {
+    const file = req.file;
+    const response = await UserService.updateResume(req.user.id, file);
+    res.status(response.status).json(response);
+  }
+
+  async deleteResumeController(req, res) {
+    const response = await UserService.deleteResume(req.user.id);
+    res.status(response.status).json(response);
+  }
 }
 
 export default UserController;
