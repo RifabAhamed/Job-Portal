@@ -9,6 +9,10 @@ const UserRepository = {
     return await UserModel.findById(id);
   },
 
+  async findByInviteToken(token) {
+   return await UserModel.findOne({ inviteToken: token });
+  },
+
   async create(userData) {
     return await UserModel.create(userData);
   },

@@ -15,9 +15,7 @@ const dbConfig = async () => {
     process.exit(1);
   }
 
-  mongoose.connection.on("error", (err) => {
-    console.error("MongoDB connection error:", err.message);
-  });
+ return mongoose.connection;
 };
 
 export default dbConfig;

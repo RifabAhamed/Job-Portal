@@ -1,6 +1,6 @@
 import express from "express";
 import authenticate from "../middlewares/authMiddleware.js";
-import { loginUserValidationSchema, paginationSchema, registerUserValidationSchema } from "../validations/UserValidations.js";
+import { inviteUserValidationSchema, loginUserValidationSchema, paginationSchema, registerUserValidationSchema } from "../validations/UserValidations.js";
 import UserController from "../controllers/UserController.js";
 import validate from "../middlewares/validationMiddleware.js"
 import { authorizeRoles } from "../middlewares/authMiddleware.js";
@@ -16,6 +16,18 @@ router.post(
   userController.loginController
 );
 router.post("/logout", authenticate, userController.logoutController);
+
+router.post(
+  "/invite-user",
+  authenticate,
+  authorizeRoles("admin"),
+  validate(inviteUserValidationSchema),
+  userController.inviteEmployerController
+);
+
+
+router.post("/accept-invite", userController.acceptInviteController);
+
 
 router.post("/reset-password", userController.resetPasswordController); 
 router.post("/submit-new-password", userController.submitNewPasswordController);

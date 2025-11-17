@@ -11,6 +11,16 @@ class UserController {
     res.status(response.status).json(response);
   }
 
+  async inviteEmployerController(req, res) {
+    const response = await UserService.inviteEmployer(req.user, req.body);
+    res.status(response.status).json(response);
+  }
+
+  async acceptInviteController(req, res) {
+    const response = await UserService.acceptInvite(req.body);
+    res.status(response.status).json(response);
+  }
+
   async resetPasswordController(req, res) {
     const response = await UserService.resetPassword(req.body);
     res.status(response.status).json(response);
