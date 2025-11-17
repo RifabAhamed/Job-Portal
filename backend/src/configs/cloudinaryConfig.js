@@ -17,7 +17,9 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "resumes", // The name of the folder in Cloudinary
-    allowed_formats: ["pdf"], // Allowed file formats
+    resource_type: "auto",
+    // allowed_formats: ["pdf"], // Allowed file formats
+    type: "authenticated",
     // A function to generate a unique public_id for each file
     public_id: (req, file) => {
       // You can include the user's ID or a timestamp for uniqueness
@@ -29,5 +31,5 @@ const storage = new CloudinaryStorage({
 
 // Create the Multer upload instance
 const upload = multer({ storage: storage });
-
+export { cloudinary };
 export default upload;
