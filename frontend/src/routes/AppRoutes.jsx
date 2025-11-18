@@ -1,42 +1,105 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
+
 import HomePage from "../pages/HomePage";
 import AboutUs from "../pages/AboutUs";
 import ContactUs from "../pages/ContactUs";
+
 import Jobs from "../features/jobs/Jobs";
 import JobDetails from "../features/jobs/JobDetails";
-import CreateCompany from "../features/company/CreateCompany";
+import ApplyJob from "../features/jobs/ApplyJob";
+import CreateJob from "../features/jobs/CreateJob";
+
 import Login from "../features/auth/Login";
 import Signup from "../features/auth/Signup";
-import CompanyProfile from "../features/company/CompanyProfile";
-import ApplyJob from "../features/jobs/ApplyJob"
-import PrivateRoute from "../utils/PrivateRoute";
-import CompanyList from "../features/company/CompanyList";
-import CreateJob from "../features/jobs/CreateJob";
 import MyAccount from "../features/auth/MyAccount";
+
+import CreateCompany from "../features/company/CreateCompany";
+import CompanyProfile from "../features/company/CompanyProfile";
+import CompanyList from "../features/company/CompanyList";
+
+import AdminDashboard from "../pages/AdminDashboard";
+
+import PrivateRoute from "../utils/PrivateRoute";
 
 const AppRoutes = () => {
   return (
     <Routes>
+      {/* Layout Wrapper */}
       <Route element={<MainLayout />}>
+        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/jobDetails/:id" element={<JobDetails />} />
-        <Route path="/createJob/:companyId" element={<CreateJob />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/createCompany" element={<CreateCompany />} />
-        <Route path="/companyProfile/:companyId" element={<CompanyProfile />} />
-        <Route path="/companyList" element={<CompanyList />} />
-        <Route path="/my-account" element={<MyAccount />} />
+
+        {/* Employer Only */}
+        <Route
+          path="/createJob/:companyId"
+          element={
+            <PrivateRoute roles={["employer"]}>
+              <CreateJob />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/createCompany"
+          element={
+            <PrivateRoute roles={["employer"]}>
+              <CreateCompany />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/companyProfile/:companyId"
+          element={
+            <PrivateRoute roles={["employer", "admin"]}>
+              <CompanyProfile />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/companyList"
+          element={
+            <PrivateRoute roles={["admin"]}>
+              <CompanyList />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Job Seeker Only */}
         <Route
           path="/applyJob/:id"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={["jobseeker"]}>
               <ApplyJob />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Any Authenticated User */}
+        <Route
+          path="/my-account"
+          element={
+            <PrivateRoute roles={["jobseeker", "employer", "admin"]}>
+              <MyAccount />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Admin Only */}
+        <Route
+          path="/admin-dashboard"
+          element={
+            <PrivateRoute roles={["admin"]}>
+              <AdminDashboard />
             </PrivateRoute>
           }
         />

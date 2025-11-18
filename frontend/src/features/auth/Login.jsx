@@ -10,8 +10,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import AuthService from "./AuthService";
 import CloseIcon from "@mui/icons-material/Close";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -22,31 +24,48 @@ const Login = () => {
     setError("");
   };
 
-  const handleLogin = async() => {
-    if (!formData.email || !formData.password) {
-      setError("Please fill in both email and password.");
-      return;
-    }
+//  const handleLogin = async () => {
+//    if (!formData.email || !formData.password) {
+//      setError("Please fill in both email and password.");
+//      return;
+//    }
 
-    console.log(formData.email)
-    console.log(formData.password)
-    try {
-      const response = await AuthService.login(
-        formData.email,
-        formData.password
-      );
+//    try {
+//      const response = await AuthService.login(
+//        formData.email,
+//        formData.password
+//      );
 
-      // Save token in localStorage
-      localStorage.setItem("token", response.data.token);
+//      console.log("Login response:", response);
 
-      console.log("Login successful:", response);
+//      // Save token correctly
+//      localStorage.setItem("token", response.data.token);
 
-      // Redirect after Login
-      navigate("/");
-    } catch (err) {
-      setError(err); // error comes from AuthService
-    }
-  };
+//      navigate("/");
+//    } catch (err) {
+//      setError(err);
+//    }
+//  };
+
+const handleLogin = async () => {
+  if (!formData.email || !formData.password) {
+    setError("Please fill in both email and password.");
+    return;
+  }
+
+  try {
+    // <-- FIX 3: Use the context's login function
+    await login(formData.email, formData.password);
+
+    // The context now handles setting the token and user state.
+    // We just need to navigate.
+    navigate("/");
+  } catch (err) {
+    // The error message (string) is thrown from the service/context
+    setError(err.toString());
+  }
+};
+
   const handleClose = () => {
     navigate("/");
   };

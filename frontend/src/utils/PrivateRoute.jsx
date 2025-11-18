@@ -1,37 +1,19 @@
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
+const PrivateRoute = ({ children, roles = [] }) => {
+  const { user, loading } = useAuth();
 
+  if (loading) return <div>Loading...</div>; // Or spinner
 
-const isTokenExpired = (token) => {
-  if (!token) return true;
+  if (!user.role) return <Navigate to="/login" />;
 
-  try {
-    const parts = token.split(".");
-    if (parts.length !== 3) {
-      console.warn("Invalid token format");
-      return true;
-    }
-
-    const payload = JSON.parse(atob(parts[1]));
-    return payload.exp * 1000 < Date.now(); // exp is in seconds
-  } catch (e) {
-    console.error("Token decode failed:", e);
-    return true; // treat invalid token as expired
-  }
-};
-
-
-
-const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  const expired = isTokenExpired(token);
-  if (!token || expired) {
-    localStorage.removeItem("token"); // cleanup if expired
-    return <Navigate to="/login" />;
+  // Check roles
+  if (roles.length > 0 && !roles.includes(user.role)) {
+    return <Navigate to="/" />; // redirect if not authorized
   }
 
   return children;
 };
-
 
 export default PrivateRoute;

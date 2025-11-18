@@ -1,32 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import AuthService from "../auth/AuthService.js";
+import { useAuth } from "../../context/AuthContext";
 
 const MyAccount = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  
+  const { user, setUser } = useAuth();
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
   const [resumeFile, setResumeFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploadMsg, setUploadMsg] = useState("");
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await AuthService.getCurrentUser();
 
-        // Your API returns: { status:200, data: { userData } }
-        setUser(res.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchUser();
-  }, []);
-
+  // Select resume (PDF only)
   const handleResumeSelect = (e) => {
     const file = e.target.files[0];
 
@@ -39,6 +27,7 @@ const MyAccount = () => {
     setUploadMsg("");
   };
 
+  // Upload Resume
   const handleResumeUpload = async () => {
     if (!resumeFile) {
       setUploadMsg("Please select a PDF file first.");
@@ -50,9 +39,8 @@ const MyAccount = () => {
 
       const response = await AuthService.uploadResume(resumeFile);
 
-      // Your upload API returns:
-      // { status:200, data: { url, public_id } }
-      const uploadedUrl = response.data?.url;
+      // response = { url, public_id }
+      const uploadedUrl = response.url;
 
       if (!uploadedUrl) {
         setUploadMsg("Upload failed: No URL returned.");
@@ -61,12 +49,12 @@ const MyAccount = () => {
 
       setUploadMsg("Resume uploaded successfully!");
 
-      // Update user resume field
+      // Update user resume in state
       setUser((prev) => ({
         ...prev,
         resume: {
           url: uploadedUrl,
-          public_id: response.data.public_id,
+          public_id: response.public_id,
         },
       }));
     } catch (err) {
@@ -76,9 +64,11 @@ const MyAccount = () => {
     }
   };
 
-  if (loading)
-    return <div className="text-center p-4">Loading user details...</div>;
-  if (error) return <div className="text-center text-red-600 p-4">{error}</div>;
+  // if (loading)
+  //   return <div className="text-center p-4">Loading user details...</div>;
+
+  // if (error)
+  //   return <div className="text-center text-red-600 p-4">{String(error)}</div>;
 
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 mt-10">
@@ -99,7 +89,6 @@ const MyAccount = () => {
             </p>
           )}
 
-          {/* Show user resume */}
           {user?.resume?.url && (
             <a
               href={user.resume.url}
@@ -115,7 +104,7 @@ const MyAccount = () => {
         <p className="text-center text-gray-500">No user details found.</p>
       )}
 
-      {/* Upload Resume Section */}
+      {/* Upload Resume */}
       <div className="mt-6 border-t pt-4">
         <h3 className="text-lg font-semibold mb-2">Upload Resume (PDF)</h3>
 
