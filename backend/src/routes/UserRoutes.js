@@ -61,21 +61,28 @@ router.patch(
 
 router.post(
   "/upload-resume",
-  authenticate, // 1. Check if the user is logged in
-  upload.single("resume"), // 2. Process the file upload
-  userController.uploadResumeController // 3. Pass control to the controller
+  authenticate,
+  upload.single("resume"),
+  userController.uploadResumeController
 );
 
-router.get("/resume", authenticate, userController.viewResumeController);
+router.get("/view-resume", authenticate, userController.viewResumeController);
 
 router.put(
-  "/resume",
+  "/update-resume",
   authenticate,
   upload.single("resume"),
   userController.updateResumeController
 );
 
 router.delete("/resume", authenticate, userController.deleteResumeController);
+
+// Debug route to compute signature for a given public_id and timestamp
+router.get(
+  "/debug/cloudinary",
+  authenticate,
+  userController.cloudinaryDebugController
+);
 
 
 export default router;

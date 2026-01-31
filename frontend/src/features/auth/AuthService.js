@@ -68,9 +68,31 @@ const AuthService = {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      return response.data;
+      // return the resume object directly (data.data holds { url, public_id })
+      return response.data.data;
     } catch (error) {
       throw error.response?.data?.message || "Resume upload failed";
+    }
+  },
+
+  getResume: async () => {
+    try {
+      const response = await api.get(`/user/view-resume`);
+      return response.data.data; // { url, public_id }
+    } catch (error) {
+      throw error.response?.data?.message || "Failed to fetch resume URL";
+    }
+  },
+
+  updateUserResume: async (resumePath) => {
+    try {
+      const response = await api.put(`/user/update-resume`, {
+        resume: resumePath,
+      });
+
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || "Failed to update resume path";
     }
   },
 

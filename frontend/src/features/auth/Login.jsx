@@ -8,7 +8,6 @@ import {
   Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import AuthService from "./AuthService";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../../context/AuthContext";
 
@@ -24,29 +23,6 @@ const Login = () => {
     setError("");
   };
 
-//  const handleLogin = async () => {
-//    if (!formData.email || !formData.password) {
-//      setError("Please fill in both email and password.");
-//      return;
-//    }
-
-//    try {
-//      const response = await AuthService.login(
-//        formData.email,
-//        formData.password
-//      );
-
-//      console.log("Login response:", response);
-
-//      // Save token correctly
-//      localStorage.setItem("token", response.data.token);
-
-//      navigate("/");
-//    } catch (err) {
-//      setError(err);
-//    }
-//  };
-
 const handleLogin = async () => {
   if (!formData.email || !formData.password) {
     setError("Please fill in both email and password.");
@@ -54,14 +30,9 @@ const handleLogin = async () => {
   }
 
   try {
-    // <-- FIX 3: Use the context's login function
     await login(formData.email, formData.password);
-
-    // The context now handles setting the token and user state.
-    // We just need to navigate.
     navigate("/");
   } catch (err) {
-    // The error message (string) is thrown from the service/context
     setError(err.toString());
   }
 };
