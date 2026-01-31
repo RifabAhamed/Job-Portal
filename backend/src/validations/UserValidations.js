@@ -16,6 +16,13 @@ export const registerUserValidationSchema = Joi.object({
 
 // Pagination (for getAllUsers)
 export const paginationSchema = Joi.object({
-  page: Joi.number().integer().min(1).optional(),
-  limit: Joi.number().integer().min(1).optional(),
+  page: Joi.number().integer().min(1).default(1),
+  limit: Joi.number().integer().min(1).default(10),
 });
+
+
+export const inviteUserValidationSchema = Joi.object({
+  email: Joi.string().email().required(),
+  role: Joi.string().valid("employer").required(), // Only employer can be invited
+});
+

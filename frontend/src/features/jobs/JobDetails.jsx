@@ -1,53 +1,162 @@
-import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Modal,
+  TextField,
+  Input,
+  Link,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SaveIcon from "../../assets/icons/SaveIcon";
 import JobFieldIcon from "../../assets/icons/JobFieldIcon";
 import { JobTimeIcon } from "../../assets/icons/JobTimeIcon";
 import { JobLocationIcon } from "../../assets/icons/JobLocationIcon";
 import { JobSalaryIcon } from "../../assets/icons/JobSalaryIcon";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MarkImage from "../../assets/images/MarkImage.png";
 import JobService from "../jobs/JobService.js";
 import Skeleton from "@mui/material/Skeleton";
+import AuthService from "../auth/AuthService.js";
 
 const JobDetails = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
-
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  // const [application, setApplication] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const [coverLetter, setCoverLetter] = useState("");
+  const [resumeUrl, setResumeUrl] = useState("");
+  const [newResumeFile, setNewResumeFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fetchJobDetails = async (jobId) => {
+    try {
+      setLoading(true);
+      setError("");
+      const res = await JobService.getJob(jobId);
+      if (res?.data) {
+        setJob(res.data);
+      } else {
+        setError("Job not found");
+      }
+    } catch (err) {
+      setError("Failed to fetch job details", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id) fetchJobDetails(id);
+  }, [id]);
+
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: { xs: "90%", sm: 600 },
+    bgcolor: "lightgreen.main",
+    borderRadius: "10px",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const handleOpen = async () => {
+    setOpen(true);
+    setModalLoading(true);
+    setNewResumeFile(null);
+    setCoverLetter("");
+    await fetchUser();
+  };
+  
+
+  const fetchUser = async () => {
+    try {
+      const res = await AuthService.getCurrentUser();
+      setUser(res?.data);
+      setResumeUrl(res?.data?.resume?.url || "");
+    } catch (err) {
+      console.error("Failed to fetch user profile", err);
+    } finally {
+      setModalLoading(false);
+    }
+  };
 
 
- const fetchJobDetails = async (jobId) => {
-   try {
-     setLoading(true);
-     setError("");
-     const res = await JobService.getJob(jobId); // replace with your API
-     if (res?.data) {
-       setJob(res.data);
-     } else {
-       setError("Job not found");
-     }
-   } catch (err) {
-     setError("Failed to fetch job details", err);
-   } finally {
-     setLoading(false);
-   }
- };
+  useEffect(() => {
+    fetchUser();
+  }, []);
+  
+  useEffect(() => {
+  }, [user]);
 
- useEffect(() => {
-   if (id) fetchJobDetails(id);
- }, [id]);
+  const handleClose = () => {
+    if (isSubmitting) return; // Don't close while submitting
+    setOpen(false);
+    setUser(null); // Clear data
+  };
 
+  const handleFileChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setNewResumeFile(event.target.files[0]);
+    }
+  };
 
-  const handleapply = () => {
-     navigate(`/applyJob/${job._id}`); // dynamic route
-   };
+  const handleSubmitApplication = async () => {
+    setIsSubmitting(true);
+    let finalResumeUrl = user.resumeUrl; // Start with the default
 
+    try {
+      if (newResumeFile) {
+        console.log("Uploading new resume...", newResumeFile.name);
+        // --- YOU MUST IMPLEMENT THIS ---
+        // This function needs to upload 'newResumeFile' to Cloudinary
+        // and return the new URL.
+        // const uploadRes = await FileUploadService.upload(newResumeFile);
+        // finalResumeUrl = uploadRes.data.secure_url;
 
-  return (
-    error?(error):(
+        // MOCK UPLOAD (replace this)
+        await new Promise((res) => setTimeout(res, 1500)); // fake network delay
+        finalResumeUrl = `https://res.cloudinary.com/demo/image/upload/${newResumeFile.name}`;
+        // --- END MOCK UPLOAD ---
+      }
+
+      // 2. Submit the application
+      const applicationData = {
+        jobId: id,
+        resumeUrl: finalResumeUrl,
+        coverLetter: coverLetter,
+      };
+
+      console.log("Submitting application:", applicationData);
+      // const submitRes = await ApplicationService.submit(applicationData);
+
+      // MOCK SUBMIT (replace this)
+      await new Promise((res) => setTimeout(res, 1000));
+      // --- END MOCK SUBMIT ---
+
+      // Success
+      setIsSubmitting(false);
+      handleClose();
+      // You should show a success message here (e.g., Snackbar)
+    } catch (err) {
+      console.error("Failed to submit application", err);
+      setIsSubmitting(false);
+      // Show an error to the user
+    }
+  };
+
+  return error ? (
+    error
+  ) : (
     <Box sx={{ mt: 8, padding: { xs: 2, md: 4 } }}>
       {loading ? (
         <Box sx={{ width: 300 }}>
@@ -239,7 +348,9 @@ const JobDetails = () => {
                   color="primarygreen"
                   sx={{ textTransform: "none", color: "#ffffff" }}
                   fullWidth
-                  onClick={handleapply}
+                  // onClick={handleapply}
+                  aria-describedby="apply-job-modal" // Good for accessibility
+                  onClick={handleOpen}
                 >
                   Apply Job
                 </Button>
@@ -334,8 +445,137 @@ const JobDetails = () => {
           </Box>
         </>
       )}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="apply-job-modal-title"
+      >
+        <Box sx={modalStyle}>
+          <Typography id="apply-job-modal-title" variant="h6" fontWeight="bold">
+            Apply for: {job?.title}
+          </Typography>
+
+          {modalLoading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
+              <CircularProgress />
+            </Box>
+          ) : user ? (
+            <Box
+              component="form"
+              sx={{ mt: 2, maxHeight: "70vh", overflowY: "auto" }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                Resume
+              </Typography>
+              {resumeUrl ? (
+                <Box
+                  sx={{
+                    border: "1px solid #ccc",
+                    borderRadius: "8px",
+                    overflow: "hidden",
+                    height: 400,
+                    mb: 2,
+                  }}
+                >
+                  <iframe
+                    src={resumeUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: "none" }}
+                    title="Resume Preview"
+                  />
+                </Box>
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  No any resume available .
+                </Typography>
+              )}
+              <Typography variant="h6" sx={{ fontWeight: "bold", mt: 2 }}>
+                Upload New Resume
+              </Typography>
+                <Input
+                  type="file"
+                  hidden
+                  onChange={handleFileChange}
+                  accept=".pdf,.doc,.docx"
+                />
+              {newResumeFile && (
+                <Box sx={{ mt: 1 }}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 1 }}
+                  >
+                    Selected: {newResumeFile.name}
+                  </Typography>
+
+                  {newResumeFile.type === "application/pdf" ? (
+                    <Box
+                      sx={{
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        overflow: "hidden",
+                        height: 400,
+                      }}
+                    >
+                      <iframe
+                        src={URL.createObjectURL(newResumeFile)}
+                        width="100%"
+                        height="100%"
+                        style={{ border: "none" }}
+                        title="New Resume Preview"
+                      />
+                    </Box>
+                  ) : (
+                    <Typography variant="body2" color="text.secondary">
+                      Preview unavailable for this file type. Please upload a
+                      PDF to preview.
+                    </Typography>
+                  )}
+                </Box>
+              )}
+
+              {/* --- Cover Letter Section --- */}
+              <Typography variant="h6" sx={{ fontWeight: "bold", mt: 3 }}>
+                Cover Letter
+              </Typography>
+              <TextField
+                label="Cover Letter (Optional)"
+                multiline
+                rows={6}
+                fullWidth
+                value={coverLetter}
+                onChange={(e) => setCoverLetter(e.target.value)}
+                variant="outlined"
+                sx={{ mt: 1 }}
+              />
+            </Box>
+          ) : (
+            <Typography sx={{ mt: 2 }}>Could not load user profile.</Typography>
+          )}
+
+          {/* --- Action Buttons --- */}
+          <Box
+            sx={{ mt: 3, display: "flex", justifyContent: "flex-end", gap: 1 }}
+          >
+            <Button onClick={handleClose} disabled={isSubmitting}>
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleSubmitApplication}
+              disabled={modalLoading || isSubmitting}
+            >
+              {isSubmitting ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Submit Application"
+              )}
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
-    )
   );
 };
 

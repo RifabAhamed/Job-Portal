@@ -2,12 +2,12 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
-// Create axios instance
+// Axios instance
 const api = axios.create({
   baseURL: API_URL,
 });
 
-// Add token to every request (if available)
+// Attach token automatically
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -17,61 +17,89 @@ api.interceptors.request.use((config) => {
 });
 
 /**
- * AuthService handles authentication API requests.
+ * AuthService handles all authentication-related API calls.
  */
 const AuthService = {
   /**
-   * Login user with email and password.
-   * @param {string} email
-   * @param {string} password
-   * @returns {Promise<Object>} Response data from backend
+   * Login user and return token + user info
    */
   login: async (email, password) => {
     try {
-      const response = await axios.post(`${API_URL}/user/login`, {
-        email,
-        password,
-      });
-      console.log(email);
-      // Optionally store token in localStorage/sessionStorage here
+      const response = await api.post(`/user/login`, { email, password });
       return response.data;
     } catch (error) {
-      // Return error message for UI
       throw error.response?.data?.message || "Login failed";
     }
   },
 
   /**
-   * Register a new user.
-   * @param {Object} userData
-   * @returns {Promise<Object>} Response data from backend
+   * Register user
    */
   signup: async (userData) => {
     try {
-      const response = await axios.post(
-        `${API_URL}/user/register-user`,
-        userData
-      );
+      const response = await api.post(`/user/register-user`, userData);
       return response.data;
     } catch (error) {
       throw error.response?.data?.message || "Signup failed";
     }
   },
 
+  /**
+   * Get logged-in user details from token
+   */
   getCurrentUser: async () => {
     try {
-      const response = await api.get("/user/auth"); 
-      return response.data;
+      const response = await api.get(`/user/auth`);
+      return response.data.data; // { id, name, email, role }
     } catch (error) {
       throw error.response?.data?.message || "Failed to fetch user details";
     }
   },
 
   /**
-   * Logout user (optional, if backend supports).
+   * Upload resume (Job Seeker only)
+   */
+  uploadResume: async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("resume", file);
+
+      const response = await api.post(`/user/upload-resume`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      // return the resume object directly (data.data holds { url, public_id })
+      return response.data.data;
+    } catch (error) {
+      throw error.response?.data?.message || "Resume upload failed";
+    }
+  },
+
+  getResume: async () => {
+    try {
+      const response = await api.get(`/user/view-resume`);
+      return response.data.data; // { url, public_id }
+    } catch (error) {
+      throw error.response?.data?.message || "Failed to fetch resume URL";
+    }
+  },
+
+  updateUserResume: async (resumePath) => {
+    try {
+      const response = await api.put(`/user/update-resume`, {
+        resume: resumePath,
+      });
+
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || "Failed to update resume path";
+    }
+  },
+
+  /**
+   * Logout user
    */
   logout: () => {
-    // Remove token from storage if used
     localStorage.removeItem("token");
   },
 };

@@ -8,10 +8,11 @@ import {
   Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import AuthService from "./AuthService";
 import CloseIcon from "@mui/icons-material/Close";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -22,31 +23,20 @@ const Login = () => {
     setError("");
   };
 
-  const handleLogin = async() => {
-    if (!formData.email || !formData.password) {
-      setError("Please fill in both email and password.");
-      return;
-    }
+const handleLogin = async () => {
+  if (!formData.email || !formData.password) {
+    setError("Please fill in both email and password.");
+    return;
+  }
 
-    console.log(formData.email)
-    console.log(formData.password)
-    try {
-      const response = await AuthService.login(
-        formData.email,
-        formData.password
-      );
+  try {
+    await login(formData.email, formData.password);
+    navigate("/");
+  } catch (err) {
+    setError(err.toString());
+  }
+};
 
-      // Save token in localStorage
-      localStorage.setItem("token", response.data.token);
-
-      console.log("Login successful:", response);
-
-      // Redirect after Login
-      navigate("/");
-    } catch (err) {
-      setError(err); // error comes from AuthService
-    }
-  };
   const handleClose = () => {
     navigate("/");
   };
