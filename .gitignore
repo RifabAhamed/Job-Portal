@@ -1,5 +1,7 @@
+# =====================
 # Logs
-logs
+# =====================
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,44 +9,66 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# =====================
 # Diagnostic reports
+# =====================
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
+# =====================
 # Runtime data
-pids
+# =====================
+pids/
 *.pid
 *.seed
 *.pid.lock
 
+# =====================
 # Dependency directories
+# =====================
 node_modules/
 jspm_packages/
-bower_components
+bower_components/
 
+# =====================
 # Compiled binary addons
-build/Release
+# =====================
+build/Release/
 
+# =====================
 # Coverage
-coverage
+# =====================
+coverage/
 *.lcov
-.nyc_output
+.nyc_output/
 
-# Cache & Output
-dist
-dist-ssr
-.cache
-.parcel-cache
-.temp
-.vitepress/dist
-.vitepress/cache
+# =====================
+# Cache & Build Output
+# =====================
+dist/
+dist-ssr/
+.cache/
+.parcel-cache/
+.temp/
+
+# Vite
+.vite/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+
+# Framework-specific
+.vitepress/dist/
+.vitepress/cache/
 .svelte-kit/
-.docusaurus
+.docusaurus/
 .serverless/
 .fusebox/
 .dynamodb/
 .firebase/
 
-# Lock/config files
+# =====================
+# Lock / config files
+# =====================
 .lock-wscript
 *.tsbuildinfo
 .eslintcache
@@ -53,7 +77,9 @@ dist-ssr
 *.tgz
 .yarn-integrity
 
-# Yarn v3
+# =====================
+# Yarn v3 (PnP)
+# =====================
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -62,19 +88,19 @@ dist-ssr
 !.yarn/sdks
 !.yarn/versions
 
+# =====================
 # Environment variables
+# =====================
 .env
 .env.*
 !.env.example
 
-# Vite logs
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
-
-# Editor files
+# =====================
+# Editor / OS files
+# =====================
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
