@@ -3,8 +3,19 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     name: String,
-    email: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
+    email: {
+      type: String,
+      unique: true,
+      required: function () {
+        return !this.isInvited;
+      },
+    },
+    password: {
+      type: String,
+      required: function () {
+        return !this.isInvited;
+      },
+    },
     role: {
       type: String,
       enum: ["employer", "jobseeker", "admin"],
@@ -13,13 +24,16 @@ const userSchema = new mongoose.Schema(
     resume: {
       url: {
         type: String,
-        default: null, 
+        default: null,
       },
       public_id: {
         type: String,
         default: null, // The ID used by the storage service to identify the file
       },
     },
+    inviteToken: String,
+    inviteExpires: Date,
+    isInvited: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

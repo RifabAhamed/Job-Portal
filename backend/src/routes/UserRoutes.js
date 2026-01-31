@@ -1,6 +1,6 @@
 import express from "express";
 import authenticate from "../middlewares/authMiddleware.js";
-import { loginUserValidationSchema, paginationSchema, registerUserValidationSchema } from "../validations/UserValidations.js";
+import { inviteUserValidationSchema, loginUserValidationSchema, paginationSchema, registerUserValidationSchema } from "../validations/UserValidations.js";
 import UserController from "../controllers/UserController.js";
 import validate from "../middlewares/validationMiddleware.js"
 import { authorizeRoles } from "../middlewares/authMiddleware.js";
@@ -16,6 +16,18 @@ router.post(
   userController.loginController
 );
 router.post("/logout", authenticate, userController.logoutController);
+
+router.post(
+  "/invite-user",
+  authenticate,
+  authorizeRoles("admin"),
+  validate(inviteUserValidationSchema),
+  userController.inviteEmployerController
+);
+
+
+router.post("/accept-invite", userController.acceptInviteController);
+
 
 router.post("/reset-password", userController.resetPasswordController); 
 router.post("/submit-new-password", userController.submitNewPasswordController);
@@ -49,21 +61,28 @@ router.patch(
 
 router.post(
   "/upload-resume",
-  authenticate, // 1. Check if the user is logged in
-  upload.single("resume"), // 2. Process the file upload
-  userController.uploadResumeController // 3. Pass control to the controller
+  authenticate,
+  upload.single("resume"),
+  userController.uploadResumeController
 );
 
-router.get("/resume", authenticate, userController.viewResumeController);
+router.get("/view-resume", authenticate, userController.viewResumeController);
 
 router.put(
-  "/resume",
+  "/update-resume",
   authenticate,
   upload.single("resume"),
   userController.updateResumeController
 );
 
 router.delete("/resume", authenticate, userController.deleteResumeController);
+
+// Debug route to compute signature for a given public_id and timestamp
+router.get(
+  "/debug/cloudinary",
+  authenticate,
+  userController.cloudinaryDebugController
+);
 
 
 export default router;
