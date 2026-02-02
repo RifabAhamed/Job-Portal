@@ -9,7 +9,7 @@ export default defineConfig({
   test: {
     globals: true, // Allows describe, test, expect globally
     environment: "jsdom", // Simulates browser
-    setupFiles: "./src/setupTests.js",
+    setupFiles: "./src/tests/setupTests.js",
     css: true, // Handles CSS imports
   },
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { ThemeContextProvider } from "../src/context/ThemeContext.jsx";
+import { ThemeContextProvider } from "../context/ThemeContext.jsx";
 import { StrictMode } from "react";
 import { MemoryRouter } from "react-router-dom";
 
