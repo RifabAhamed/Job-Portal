@@ -5,10 +5,12 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { ThemeSwitchButton } from "./ThemeSwitchBotton";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user } = useAuth();
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
 
@@ -26,10 +28,15 @@ export default function ProfileMenu() {
     setAnchorEl(null);
   };
 
-  const navigateToAccount = () =>{
+  const navigateToAccount = () => {
     handleClose();
     navigate("/my-account");
-  }
+  };
+
+  const navigateToEmployerDashboard = () => {
+    handleClose();
+    navigate("/employer-dashboard");
+  };
 
   const handleLogin = () => {
     handleClose();
@@ -63,6 +70,16 @@ export default function ProfileMenu() {
               <MenuItem key="account" onClick={navigateToAccount}>
                 My account
               </MenuItem>,
+              ...(user?.role === "employer"
+                ? [
+                    <MenuItem
+                      key="dashboard"
+                      onClick={navigateToEmployerDashboard}
+                    >
+                      My Companies
+                    </MenuItem>,
+                  ]
+                : []),
               <MenuItem key="theme" onClick={handleClose}>
                 Theme <ThemeSwitchButton />
               </MenuItem>,

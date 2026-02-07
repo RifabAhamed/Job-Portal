@@ -34,7 +34,7 @@ const CompanyService = {
     const companies = await CompanyRepository.getPaginatedCompanies(
       page,
       limit,
-      filter
+      filter,
     );
     return { status: 200, data: companies };
   },
@@ -57,7 +57,7 @@ const CompanyService = {
 
     const updatedCompany = await CompanyRepository.update(
       companyId,
-      updateData
+      updateData,
     );
     return {
       status: 200,
@@ -82,6 +82,28 @@ const CompanyService = {
 
     await CompanyRepository.delete(companyId);
     return { status: 200, message: "Company deleted successfully" };
+  },
+
+  async getEmployerCompaniesPaginated(user, { page = 1, limit = 10 }) {
+    if (!user || !user._id) {
+      return {
+        status: 401,
+        message: "User not authenticated",
+      };
+    }
+
+    // Filter companies by createdBy (the employer's ID)
+    const companies = await CompanyRepository.getPaginatedCompanies(
+      page,
+      limit,
+      { createdBy: user._id },
+    );
+
+    return {
+      status: 200,
+      message: "Employer companies retrieved successfully",
+      data: companies,
+    };
   },
 };
 export default CompanyService;

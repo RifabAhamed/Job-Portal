@@ -10,18 +10,19 @@ import {
   StepLabel,
   Alert,
   MenuItem,
- 
+  CircularProgress,
 } from "@mui/material";
 import countryCityMap from "../../data/CountryCityData";
 import { useNavigate } from "react-router-dom";
+import CompanyService from "../company/CompanyService.js";
 
-const steps = ["Company Info", "Details", "Account Setup"];
+const steps = ["Company Info", "Details"];
 
 const CreateCompany = () => {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
-    companyName: "",
+    name: "",
     email: "",
     phone: "",
     address: "",
@@ -29,18 +30,15 @@ const CreateCompany = () => {
     description: "",
     city: "",
     country: "",
-    password: "",
-    confirmPassword:"",
   });
-
-
+  const [submitting, setSubmitting] = useState(false);
 
   const [error, setError] = useState("");
 
   const handleNext = () => {
     // Step validation
     if (activeStep === 0) {
-      if (!formData.companyName || !formData.email) {
+      if (!formData.name || !formData.email) {
         setError("Please fill all required fields in Company Info");
         return;
       }
@@ -67,19 +65,49 @@ const CreateCompany = () => {
     setError("");
   };
 
-  const handleSubmit = () => {
-    if (!formData.password || !formData.confirmPassword) {
-      setError("Please fill in your password and confirm it");
-      return;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-    console.log("Form submitted:", formData);
-    // TODO: send data to backend API
+  const handleSubmit = async () => {
+    try {
+      setSubmitting(true);
+      setError("");
 
-    navigate("/companyProfile");
+      // Prepare FormData for multipart submission (for logo file)
+      const submitData = new FormData();
+      submitData.append("name", formData.name);
+      submitData.append("email", formData.email);
+      submitData.append("phone", formData.phone);
+      submitData.append("address", formData.address);
+      submitData.append("description", formData.description);
+      // Combine city and country into location
+      const location =
+        formData.city && formData.country
+          ? `${formData.city}, ${formData.country}`
+          : "";
+      submitData.append("location", location);
+      submitData.append("country", formData.country);
+      submitData.append("city", formData.city);
+
+      // Append logo if selected
+      if (formData.logo instanceof File) {
+        submitData.append("logo", formData.logo);
+      }
+
+      // Call API to create company
+      const response = await CompanyService.createCompany(submitData);
+
+      if (response?.data?._id || response?.status === 201) {
+        alert("Company created successfully!");
+        // Navigate to employer dashboard
+        navigate("/employer-dashboard");
+      }
+    } catch (err) {
+      setError(
+        typeof err === "string"
+          ? err
+          : "Failed to create company. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const selectCountry = (e) => {
@@ -101,9 +129,9 @@ const CreateCompany = () => {
             <TextField
               size="small"
               fullWidth
-              name="companyName"
+              name="name"
               label="Company Name"
-              value={formData.companyName}
+              value={formData.name}
               onChange={handleChange}
               margin="normal"
               required
@@ -205,33 +233,6 @@ const CreateCompany = () => {
             </TextField>
           </>
         );
-      case 2:
-        return (
-          <>
-            <TextField
-              size="small"
-              fullWidth
-              name="password"
-              type="password"
-              label="Password"
-              value={formData.password}
-              onChange={handleChange}
-              margin="normal"
-              required
-            />
-            <TextField
-              size="small"
-              fullWidth
-              name="confirmPassword"
-              type="password"
-              label="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              margin="normal"
-              required
-            />
-          </>
-        );
       default:
         return null;
     }
@@ -284,7 +285,10 @@ const CreateCompany = () => {
           size="small"
           sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}
         >
-          <Button disabled={activeStep === 0} onClick={handleBack}>
+          <Button
+            disabled={activeStep === 0 || submitting}
+            onClick={handleBack}
+          >
             Back
           </Button>
           {activeStep === steps.length - 1 ? (
@@ -293,11 +297,24 @@ const CreateCompany = () => {
               variant="contained"
               color="primary"
               onClick={handleSubmit}
+              disabled={submitting}
             >
-              Submit
+              {submitting ? (
+                <>
+                  <CircularProgress size={20} sx={{ mr: 1 }} />
+                  Creating...
+                </>
+              ) : (
+                "Create Company"
+              )}
             </Button>
           ) : (
-            <Button variant="contained" color="primary" onClick={handleNext}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNext}
+              disabled={submitting}
+            >
               Next
             </Button>
           )}
