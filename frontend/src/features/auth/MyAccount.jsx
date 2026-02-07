@@ -119,35 +119,37 @@ const MyAccount = () => {
         <p className="text-center text-gray-500">No user details found.</p>
       )}
 
-      {/* Upload Resume */}
-      <div className="mt-6 border-t pt-4">
-        <h3 className="text-lg font-semibold mb-2">Upload Resume (PDF)</h3>
+      {/* Upload Resume - Only for Job Seekers */}
+      {user?.role !== "employer" && (
+        <div className="mt-6 border-t pt-4">
+          <h3 className="text-lg font-semibold mb-2">Upload Resume (PDF)</h3>
 
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={handleResumeSelect}
-          className="border p-2 w-full rounded-md"
-        />
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={handleResumeSelect}
+            className="border p-2 w-full rounded-md"
+          />
 
-        {resumeFile && (
-          <p className="mt-2 text-sm text-gray-600">
-            Selected: <strong>{resumeFile.name}</strong>
-          </p>
-        )}
+          {resumeFile && (
+            <p className="mt-2 text-sm text-gray-600">
+              Selected: <strong>{resumeFile.name}</strong>
+            </p>
+          )}
 
-        <button
-          onClick={handleResumeUpload}
-          disabled={uploading}
-          className="mt-3 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
-        >
-          {uploading ? "Uploading..." : "Upload Resume"}
-        </button>
+          <button
+            onClick={handleResumeUpload}
+            disabled={uploading}
+            className="mt-3 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+          >
+            {uploading ? "Uploading..." : "Upload Resume"}
+          </button>
 
-        {uploadMsg && (
-          <p className="text-center mt-3 text-green-700">{uploadMsg}</p>
-        )}
-      </div>
+          {uploadMsg && (
+            <p className="text-center mt-3 text-green-700">{uploadMsg}</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
