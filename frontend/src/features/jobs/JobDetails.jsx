@@ -9,6 +9,8 @@ import {
   Link,
   Stack,
   Typography,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SaveIcon from "../../assets/icons/SaveIcon";
@@ -35,6 +37,9 @@ const JobDetails = () => {
   const [resumeUrl, setResumeUrl] = useState("");
   const [newResumeFile, setNewResumeFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const fetchJobDetails = async (jobId) => {
     try {
@@ -76,13 +81,12 @@ const JobDetails = () => {
     setCoverLetter("");
     await fetchUser();
   };
-  
 
   const fetchUser = async () => {
     try {
       const res = await AuthService.getCurrentUser();
-      setUser(res?.data);
-      setResumeUrl(res?.data?.resume?.url || "");
+      setUser(res);
+      setResumeUrl(res?.resume?.url || "");
     } catch (err) {
       console.error("Failed to fetch user profile", err);
     } finally {
@@ -90,18 +94,23 @@ const JobDetails = () => {
     }
   };
 
-
   useEffect(() => {
     fetchUser();
   }, []);
-  
-  useEffect(() => {
-  }, [user]);
+
+  useEffect(() => {}, [user]);
 
   const handleClose = () => {
     if (isSubmitting) return; // Don't close while submitting
     setOpen(false);
     setUser(null); // Clear data
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
   const handleFileChange = (event) => {
@@ -145,11 +154,17 @@ const JobDetails = () => {
 
       // Success
       setIsSubmitting(false);
+      setSnackbarMessage("Application submitted successfully!");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
       handleClose();
       // You should show a success message here (e.g., Snackbar)
     } catch (err) {
       console.error("Failed to submit application", err);
       setIsSubmitting(false);
+      setSnackbarMessage("Failed to submit application. Please try again.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
       // Show an error to the user
     }
   };
@@ -493,12 +508,12 @@ const JobDetails = () => {
               <Typography variant="h6" sx={{ fontWeight: "bold", mt: 2 }}>
                 Upload New Resume
               </Typography>
-                <Input
-                  type="file"
-                  hidden
-                  onChange={handleFileChange}
-                  accept=".pdf,.doc,.docx"
-                />
+              <Input
+                type="file"
+                hidden
+                onChange={handleFileChange}
+                accept=".pdf,.doc,.docx"
+              />
               {newResumeFile && (
                 <Box sx={{ mt: 1 }}>
                   <Typography
@@ -575,6 +590,22 @@ const JobDetails = () => {
           </Box>
         </Box>
       </Modal>
+
+      {/* Snackbar for application submission feedback */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

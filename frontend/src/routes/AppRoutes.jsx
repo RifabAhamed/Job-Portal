@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 
-import HomePage from "../pages/HomePage";
+import Home from "../pages/Home";
 import AboutUs from "../pages/AboutUs";
 import ContactUs from "../pages/ContactUs";
 
@@ -18,6 +18,8 @@ import MyAccount from "../features/auth/MyAccount";
 import CreateCompany from "../features/company/CreateCompany";
 import CompanyProfile from "../features/company/CompanyProfile";
 import CompanyList from "../features/company/CompanyList";
+import EmployerDashboard from "../features/company/EmployerDashboard";
+import EditCompany from "../features/company/EditCompany";
 
 import AdminDashboard from "../pages/AdminDashboard";
 
@@ -29,11 +31,25 @@ const AppRoutes = () => {
       {/* Layout Wrapper */}
       <Route element={<MainLayout />}>
         {/* Public Routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/jobs"
+          element={
+            <PrivateRoute roles={["jobseeker", "admin"]}>
+              <Jobs />
+            </PrivateRoute>
+          }
+        />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/jobDetails/:id" element={<JobDetails />} />
+        <Route
+          path="/jobDetails/:id"
+          element={
+            <PrivateRoute roles={["jobseeker", "admin"]}>
+              <JobDetails />
+            </PrivateRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
@@ -70,6 +86,24 @@ const AppRoutes = () => {
           element={
             <PrivateRoute roles={["admin"]}>
               <CompanyList />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/employer-dashboard"
+          element={
+            <PrivateRoute roles={["employer"]}>
+              <EmployerDashboard />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/editCompany/:companyId"
+          element={
+            <PrivateRoute roles={["employer", "admin"]}>
+              <EditCompany />
             </PrivateRoute>
           }
         />

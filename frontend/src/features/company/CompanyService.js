@@ -13,6 +13,10 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  // Don't set Content-Type for FormData - let axios/browser handle it
+  if (config.data instanceof FormData) {
+    config.headers["Content-Type"] = "multipart/form-data";
+  }
   return config;
 });
 
@@ -58,7 +62,7 @@ const CompanyService = {
     try {
       const response = await api.put(
         `/company/editCompanyDetails/${companyId}`,
-        updatedData
+        updatedData,
       );
       return response.data;
     } catch (error) {
@@ -95,6 +99,23 @@ const CompanyService = {
       return response.data;
     } catch (error) {
       throw error.response?.data?.message || "Failed to fetch companies";
+    }
+  },
+
+  /**
+   * Get paginated companies created by the authenticated employer
+   * @param {number} page
+   * @param {number} limit
+   * @returns {Promise<Object>} Paginated employer's company list
+   */
+  getMyCompaniesPaginated: async ({ page = 1, limit = 10 }) => {
+    try {
+      const response = await api.get("/company/getMyCompanies", {
+        params: { page, limit },
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || "Failed to fetch your companies";
     }
   },
 };

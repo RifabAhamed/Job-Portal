@@ -45,7 +45,30 @@ const storage = new CloudinaryStorage({
   },
 });
 
-// Create the Multer upload instance
+// Create the Multer upload instance for resumes
 const upload = multer({ storage: storage });
-export { cloudinary };
+
+// Configure Multer for company logos
+const logoStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "company_logos", // The name of the folder in Cloudinary
+    resource_type: "image",
+    allowed_formats: ["jpg", "jpeg", "png", "gif", "webp"],
+    format: async (req, file) => {
+      const parts = file.originalname.split(".");
+      return parts.length > 1 ? parts.pop().toLowerCase() : "jpg";
+    },
+    public_id: (req, file) => {
+      const parts = file.originalname.split(".");
+      const ext = parts.length > 1 ? parts.pop().toLowerCase() : "jpg";
+      const fileName = parts.join(".");
+      return `${req.user.id}-${fileName}-${Date.now()}`;
+    },
+  },
+});
+
+const uploadLogo = multer({ storage: logoStorage });
+
+export { cloudinary, uploadLogo };
 export default upload;
