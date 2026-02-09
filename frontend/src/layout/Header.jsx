@@ -4,11 +4,13 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import ProfileMenu from "../components/ProfileMenu";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const theme = useTheme();
   const isSmScreen = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -17,6 +19,9 @@ const Header = () => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token); // true if token exists
   }, []);
+
+  // Check if user is employer
+  const isEmployer = user?.role === "employer";
 
   const handleLogin = () => navigate("/login");
   const handleSignup = () => navigate("/signup");
@@ -61,18 +66,21 @@ const Header = () => {
                 display: "flex",
                 flexDirection: "row",
                 gap: 2,
-                // justifyContent: "center",
               }}
             >
               <Link href="/" underline="none" color="inherit">
                 Home
               </Link>
-              <Link href="/jobs" underline="none" color="inherit">
-                Jobs
-              </Link>
-              <Link href="/companyList" underline="none" color="inherit">
-                Companies
-              </Link>
+              {!isEmployer && (
+                <Link href="/jobs" underline="none" color="inherit">
+                  Jobs
+                </Link>
+              )}
+              {!isEmployer && (
+                <Link href="/companyList" underline="none" color="inherit">
+                  Companies
+                </Link>
+              )}
               <Link href="/about" underline="none" color="inherit">
                 About
               </Link>
@@ -96,12 +104,16 @@ const Header = () => {
             <Link href="/" underline="none" color="inherit">
               Home
             </Link>
-            <Link href="/jobs" underline="none" color="inherit">
-              Jobs
-            </Link>
-            <Link href="/companyList" underline="none" color="inherit">
-              Companies
-            </Link>
+            {!isEmployer && (
+              <Link href="/jobs" underline="none" color="inherit">
+                Jobs
+              </Link>
+            )}
+            {!isEmployer && (
+              <Link href="/companyList" underline="none" color="inherit">
+                Companies
+              </Link>
+            )}
             <Link href="/about" underline="none" color="inherit">
               About
             </Link>

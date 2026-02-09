@@ -32,10 +32,24 @@ const AppRoutes = () => {
       <Route element={<MainLayout />}>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/jobs" element={<Jobs />} />
+        <Route
+          path="/jobs"
+          element={
+            <PrivateRoute roles={["jobseeker", "admin"]}>
+              <Jobs />
+            </PrivateRoute>
+          }
+        />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/jobDetails/:id" element={<JobDetails />} />
+        <Route
+          path="/jobDetails/:id"
+          element={
+            <PrivateRoute roles={["jobseeker", "admin"]}>
+              <JobDetails />
+            </PrivateRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
