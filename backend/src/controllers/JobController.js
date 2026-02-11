@@ -13,14 +13,46 @@ class JobController {
     res.status(response.status).json(response);
   };
 
-  getAllJobsPaginatedController = async (req, res) => {
-    const response = await JobService.getAllJobsPaginated(req.query);
-    res.status(response.status).json(response);
+  getAllJobsPaginatedController = async (req, res, next) => {
+    try {
+      // 1. Extract specifically what we allow (Security best practice)
+      const {
+        page,
+        limit,
+        search,
+        location,
+        jobType,
+        experienceLevel,
+        minSalary,
+        maxSalary,
+        sort,
+      } = req.query;
+
+      const response = await JobService.getAllJobsPaginated({
+        page: Number(page) || 1,
+        limit: Number(limit) || 10,
+        search,
+        location,
+        jobType, // e.g. "FullTime,PartTime"
+        experienceLevel, // e.g. "Senior,Mid"
+        minSalary,
+        maxSalary,
+        sort,
+      });
+
+      res.status(200).json(response);
+    } catch (error) {
+      // Pass error to global error handler middleware
+      next(error);
+    }
   };
 
   getCompanyJobsPaginatedController = async (req, res) => {
     const { companyId } = req.params;
-    const response = await JobService.getCompanyJobsPaginated({companyId, ...req.query});
+    const response = await JobService.getCompanyJobsPaginated({
+      companyId,
+      ...req.query,
+    });
     res.status(response.status).json(response);
   };
 
