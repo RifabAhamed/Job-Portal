@@ -52,17 +52,70 @@ const JobService = {
     };
   },
 
-  async getAllJobsPaginated({ page = 1, limit = 10, filter = {} }) {
-    const jobs = await JobRepository.getPaginatedJobs(page, limit, filter);
-    return { status: 200, data: jobs };
-  },
 
-  async getCompanyJobsPaginated({companyId, page = 1, limit = 10, filter = {} }) {
-    if(!companyId){
-      return {status:400, message:"Company id is required"}
+  async getAllJobsPaginated(params) {
+    const { page, limit, search, sort } = params;
+
+    // --- BUILD THE DATABASE QUERY ---
+    const query = {};
+
+    // 1. Search Logic
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: "i" } },
+        // Note: Searching "company.name" requires the Repository to use Aggregate/Lookup
+        // if the company field is just an ObjectId in the Job Schema.
+        // If your Job schema saves companyName as a string, this works fine.
+        { "company.name": { $regex: search, $options: "i" } },
+      ];
     }
 
-    const jobs = await JobRepository.getPaginatedJobs(page, limit,{ ...filter, company:companyId});
+    // 2. Exact & Regex Filters
+    if (params.location) {
+      query.location = { $regex: params.location, $options: "i" };
+    }
+
+    if (params.jobType) {
+      const types = params.jobType.split(",");
+      if (types.length > 0) query.jobType = { $in: types };
+    }
+
+    if (params.experienceLevel) {
+      const levels = params.experienceLevel.split(",");
+      if (levels.length > 0) query.experienceLevel = { $in: levels };
+    }
+
+    // 3. Salary Range
+    if (params.minSalary || params.maxSalary) {
+      query.salary = {};
+      if (params.minSalary) query.salary.$gte = Number(params.minSalary);
+      if (params.maxSalary) query.salary.$lte = Number(params.maxSalary);
+    }
+
+    // --- HANDLE SORTING ---
+    let sortOption = { createdAt: -1 };
+    if (sort === "oldest") sortOption = { createdAt: 1 };
+    if (sort === "salary_high") sortOption = { salary: -1 };
+    if (sort === "salary_low") sortOption = { salary: 1 };
+
+    // Call Repository with standardized signature: (filter, page, limit, sort)
+    return await JobRepository.getPaginatedJobs(query, page, limit, sortOption);
+  },
+
+  async getCompanyJobsPaginated({
+    companyId,
+    page = 1,
+    limit = 10,
+    filter = {},
+  }) {
+    if (!companyId) {
+      return { status: 400, message: "Company id is required" };
+    }
+
+    const jobs = await JobRepository.getPaginatedJobs(page, limit, {
+      ...filter,
+      company: companyId,
+    });
     return { status: 200, data: jobs };
   },
 
