@@ -58,7 +58,7 @@ const JobService = {
     try {
       const response = await api.put(
         `/job/editJobDetails/${jobId}`,
-        updatedData
+        updatedData,
       );
       return response.data;
     } catch (error) {
@@ -87,10 +87,18 @@ const JobService = {
    * @param {Object} filter
    * @returns {Promise<Object>}
    */
-  getAllJobsPaginated: async ({ page = 1, limit = 10, filter = {} }) => {
+ 
+  /**
+   * Get All Jobs (Paginated + Filtered)
+   * Matches the "Industry Standard" Backend Query
+   * @param {Object} params - { page, limit, search, location, jobType, sort, etc. }
+   */
+  getAllJobsPaginated: async (params) => {
     try {
+      // We pass 'params' directly. Axios automatically converts
+      // objects into query strings (e.g., ?page=1&search=react)
       const response = await api.get("/job/getAllJobs", {
-        params: { page, limit, ...filter },
+        params: params,
       });
       return response.data;
     } catch (error) {
@@ -106,7 +114,7 @@ const JobService = {
   getJobsByCompany: async (companyId, { page = 1, limit = 10 } = {}) => {
     try {
       const response = await api.get(`/job/getCompanyJobs/${companyId}`, {
-        params:{page, limit}
+        params: { page, limit },
       });
       return response.data;
     } catch (error) {
