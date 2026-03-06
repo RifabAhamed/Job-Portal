@@ -31,4 +31,13 @@ router.delete(
   jobController.deleteJobController
 );
 
+router.post(
+  "/toggleSaveJob/:id",
+  authenticate,
+  authorizeRoles("jobseeker"), 
+  jobController.toggleSaveJobController,
+);
+
+
+
 export default router;

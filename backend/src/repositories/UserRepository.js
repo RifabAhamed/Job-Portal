@@ -10,7 +10,7 @@ const UserRepository = {
   },
 
   async findByInviteToken(token) {
-   return await UserModel.findOne({ inviteToken: token });
+    return await UserModel.findOne({ inviteToken: token });
   },
 
   async create(userData) {
@@ -33,7 +33,30 @@ const UserRepository = {
     return await UserModel.findByIdAndUpdate(
       userId,
       { role: role },
-      { new: true }
+      { new: true },
+    );
+  },
+  async getUserWithPopulatedSavedJobs(userId) {
+    return await UserModel.findById(userId).populate({
+      path: "savedJobs",
+      select:
+        "title company location salaryRange jobType experienceLevel createdAt",
+    });
+  },
+
+  async addSavedJob(userId, jobId) {
+    return await UserModel.findByIdAndUpdate(
+      userId,
+      { $addToSet: { savedJobs: jobId } },
+      { new: true }, // Returns the updated document
+    );
+  },
+
+  async removeSavedJob(userId, jobId) {
+    return await UserModel.findByIdAndUpdate(
+      userId,
+      { $pull: { savedJobs: jobId } },
+      { new: true },
     );
   },
 };

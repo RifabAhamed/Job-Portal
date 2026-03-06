@@ -67,6 +67,28 @@ class JobController {
     const response = await JobService.deleteJob(req.user, id);
     res.status(response.status).json(response);
   };
+
+  getSavedJobsController = async (req, res, next) => {
+    try {
+      const userId = req.user._id; // Extracted from authenticate middleware
+      const response = await JobService.getSavedJobs(userId);
+      res.status(response.status).json(response);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  // NEW: Toggle Save Job Controller
+  toggleSaveJobController = async (req, res, next) => {
+    try {
+      const userId = req.user._id;
+      const jobId = req.params.id; // Extracted from the URL route
+      const response = await JobService.toggleSaveJob(userId, jobId);
+      res.status(response.status).json(response);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default JobController;

@@ -1,5 +1,6 @@
 import CompanyRepository from "../repositories/CompanyRepository.js";
 import JobRepository from "../repositories/JobRepository.js";
+import UserRepository from "../repositories/UserRepository.js";
 
 const JobService = {
   async createJob(user, companyId, jobData) {
@@ -51,7 +52,6 @@ const JobService = {
       data: job,
     };
   },
-
 
   async getAllJobsPaginated(params) {
     const { page, limit, search, sort } = params;
@@ -159,6 +159,62 @@ const JobService = {
 
     await JobRepository.delete(jobId);
     return { status: 200, message: "Job deleted successfully" };
+  },
+
+  async toggleSaveJob(userId, jobId) {
+    try {
+      const jobExists = await JobRepository.findById(jobId);
+      if (!jobExists) {
+        return { status: 404, message: "Job not found" };
+      }
+
+      const user = await UserRepository.findById(userId);
+      if (!user) {
+        return { status: 404, message: "User not found" };
+      }
+
+      const isSaved = user.savedJobs.includes(jobId);
+
+      // 👈 Use the repository methods to update the DB
+      if (isSaved) {
+        await UserRepository.removeSavedJob(userId, jobId);
+        return {
+          status: 200,
+          message: "Job removed from saved list",
+          isSaved: false,
+        };
+      } else {
+        await UserRepository.addSavedJob(userId, jobId);
+        return {
+          status: 200,
+          message: "Job saved successfully",
+          isSaved: true,
+        };
+      }
+    } catch (error) {
+      console.error("Error in toggleSaveJob service:", error);
+      throw error;
+    }
+  },
+
+  async getSavedJobs(userId) {
+    try {
+      // 👈 Use the new repository method
+      const user = await UserRepository.getUserWithPopulatedSavedJobs(userId);
+
+      if (!user) {
+        return { status: 404, message: "User not found" };
+      }
+
+      return {
+        status: 200,
+        count: user.savedJobs.length,
+        data: user.savedJobs,
+      };
+    } catch (error) {
+      console.error("Error in getSavedJobs service:", error);
+      throw error;
+    }
   },
 };
 export default JobService;
