@@ -31,11 +31,18 @@ const userSchema = new mongoose.Schema(
         default: null, // The ID used by the storage service to identify the file
       },
     },
+    savedJobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job", 
+      },
+    ],
     inviteToken: String,
     inviteExpires: Date,
     isInvited: { type: Boolean, default: false },
   },
-  { timestamps: true }
+
+  { timestamps: true },
 );
 
 export default mongoose.model("User", userSchema);

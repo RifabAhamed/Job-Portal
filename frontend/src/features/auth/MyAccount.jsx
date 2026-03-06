@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AuthService from "../auth/AuthService.js";
+import { useGetSavedJobsQuery } from "../../redux/api/savedJobsApi.js";
 import { useAuth } from "../../context/AuthContext";
+import JobCard from "../../components/JobCard.jsx";
 
 const MyAccount = () => {
   const { user, setUser } = useAuth();
@@ -12,6 +14,17 @@ const MyAccount = () => {
   const [uploadMsg, setUploadMsg] = useState("");
   const [resumeViewUrl, setResumeViewUrl] = useState(null);
 
+  const {
+    data: savedJobsData,
+    isLoading: isJobsLoading,
+    isError: isJobsError,
+  } = useGetSavedJobsQuery(undefined, {
+    skip: !user || user.role === "employer",
+  });
+
+  // Extract the array from the response
+  const savedJobsList = savedJobsData?.data || [];
+  
   useEffect(() => {
     const fetchSigned = async () => {
       if (!user?.resume?.public_id) return;
@@ -147,6 +160,33 @@ const MyAccount = () => {
 
           {uploadMsg && (
             <p className="text-center mt-3 text-green-700">{uploadMsg}</p>
+          )}
+        </div>
+      )}
+
+      {user?.role !== "employer" && (
+        <div className="mt-8 border-t pt-6">
+          <h3 className="text-xl font-semibold mb-4">My Saved Jobs</h3>
+
+          {isJobsLoading ? (
+            <div className="flex justify-center p-4">
+              {/* You can replace this with your MUI CircularProgress if you prefer */}
+              <p className="text-gray-500">Loading saved jobs...</p>
+            </div>
+          ) : isJobsError ? (
+            <p className="text-red-500 text-center">
+              Failed to load saved jobs.
+            </p>
+          ) : savedJobsList.length === 0 ? (
+            <p className="text-gray-500 text-center py-4 bg-gray-50 rounded-lg">
+              You have not saved any jobs yet. Browse jobs to save them here!
+            </p>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {savedJobsList.map((job) => (
+                <JobCard key={job._id} job={job} />
+              ))}
+            </div>
           )}
         </div>
       )}
