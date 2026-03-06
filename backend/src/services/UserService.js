@@ -235,7 +235,7 @@ const UserService = {
           type: "authenticated",
           attachment: false,
           expires_at: Math.floor(Date.now() / 1000) + 300, // 5 min
-        }
+        },
       );
 
       return {
@@ -303,87 +303,10 @@ const UserService = {
     };
   },
 
-  //superbase
-  // async uploadResume(userId, resumePath) {
-  //     if (!resumePath) {
-  //       return { status: 400, message: "No resume path provided." };
-  //     }
+ 
 
-  //     const user = await UserRepository.findById(userId);
-  //     if (!user) {
-  //       return { status: 404, message: "User not found." };
-  //     }
+ 
 
-  //     // Save the plain string (e.g., "user_123/17444_resume.pdf")
-  //     user.resume = resumePath;
-  //     await user.save();
-
-  //     return {
-  //       status: 200,
-  //       message: "Resume saved successfully!",
-  //       data: user.resume,
-  //     };
-  //   },
-
-  //   // 2. View: Just returns the user data
-  //   // The Frontend generates the Signed URL using the path stored in user.resume
-  //   async viewResume(userId) {
-  //     const user = await UserRepository.findById(userId);
-  //     if (!user) return { status: 404, message: "User not found" };
-
-  //     if (!user.resume) {
-  //       return { status: 404, message: "No resume uploaded" };
-  //     }
-
-  //     // Return the path so the frontend can generate the link
-  //     return {
-  //       status: 200,
-  //       data: { resumePath: user.resume },
-  //     };
-  //   },
-
-  //   // 3. Update: Same as upload, receives path string
-  //   async updateResume(userId, resumePath) {
-  //     if (!resumePath) {
-  //       return { status: 400, message: "No new resume path provided" };
-  //     }
-
-  //     const user = await UserRepository.findById(userId);
-  //     if (!user) return { status: 404, message: "User not found" };
-
-  //     // Update the path
-  //     user.resume = resumePath;
-  //     await user.save();
-
-  //     return {
-  //       status: 200,
-  //       message: "Resume updated successfully",
-  //       data: user.resume,
-  //     };
-  //   },
-
-  //   // 4. Delete: Removes the reference from the Database
-  //   async deleteResume(userId) {
-  //     const user = await UserRepository.findById(userId);
-  //     if (!user) return { status: 404, message: "User not found" };
-
-  //     if (!user.resume) {
-  //       return { status: 404, message: "No resume to delete" };
-  //     }
-
-  //     // Note: This only removes the link from the database.
-  //     // The actual file in Supabase Storage is not deleted by the backend
-  //     // because we haven't set up the Supabase Admin SDK here.
-  //     // Ideally, the frontend should delete the file from Storage first, then call this.
-
-  //     user.resume = null; // or undefined
-  //     await user.save();
-
-  //     return {
-  //       status: 200,
-  //       message: "Resume deleted successfully",
-  //     };
-  //   },
 };
 
 export default UserService;

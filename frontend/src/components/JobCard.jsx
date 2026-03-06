@@ -6,6 +6,8 @@ import {
   Avatar,
   Stack,
   Button,
+  CircularProgress,
+  IconButton,
 } from "@mui/material";
 import SaveIcon from "../assets/icons/SaveIcon.jsx";
 import JobFieldIcon from "../assets/icons/JobFieldIcon.jsx";
@@ -14,15 +16,54 @@ import { JobTimeIcon } from "../assets/icons/JobTimeIcon.jsx";
 import { JobLocationIcon } from "../assets/icons/JobLocationIcon.jsx";
 import { JobSalaryIcon } from "../assets/icons/JobSalaryIcon.jsx";
 import { useNavigate } from "react-router-dom";
+import {
+  useGetSavedJobsQuery,
+  useToggleSaveJobMutation,
+} from "../../src/redux/api/savedJobsApi";
+import { useAuth } from "../../src/context/AuthContext";
 
 // Expected job object structure
 const JobCard = ({ job }) => {
-    console.log("Job Details:", job);
+  console.log("Job Details:", job);
 
   const navigate = useNavigate();
-   const goToDetails = () => {
-     navigate(`/jobDetails/${job._id}`); // dynamic route
-   };
+  const { user } = useAuth();
+
+  const { data: savedJobsData } = useGetSavedJobsQuery(undefined, {
+    skip: !user || user.role === "employer", // Don't fetch if not logged in or is employer
+  });
+
+  // 3. Setup the mutation hook
+  const [toggleSaveJob, { isLoading: isToggling }] = useToggleSaveJobMutation();
+
+  // Determine if this specific job is in the saved list
+  const isSaved = savedJobsData?.data?.some(
+    (savedJob) => savedJob._id === job._id,
+  );
+  const goToDetails = () => {
+    navigate(`/jobDetails/${job._id}`); // dynamic route
+  };
+
+  const handleToggleSave = async (e) => {
+    e.stopPropagation(); // Prevents clicking the card background if you have an onClick there
+
+    if (!user) {
+      alert("Please log in to save jobs!");
+      return;
+    }
+
+    if (user.role === "employer") {
+      alert("Employers cannot save jobs.");
+      return;
+    }
+
+    try {
+      await toggleSaveJob(job._id).unwrap();
+    } catch (error) {
+      console.error("Failed to toggle save:", error);
+      alert("Something went wrong while saving the job.");
+    }
+  };
   return (
     <Card
       sx={{ p: { xs: 1, md: 3 }, mb: { xs: 1, md: 2 }, boxShadow: 2 }}
@@ -51,7 +92,33 @@ const JobCard = ({ job }) => {
             {job.createdAt}
           </Typography>
         </Box>
-        <SaveIcon />
+        <IconButton
+          onClick={handleToggleSave}
+          disabled={isToggling}
+          sx={{
+            // Use a highly visible color when saved (e.g., green or blue)
+            color: isSaved ? "primary.main" : "text.secondary",
+            transition: "all 0.2s ease-in-out",
+            "&:hover": {
+              backgroundColor: "rgba(0,0,0,0.04)",
+            },
+          }}
+        >
+          {isToggling ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                transform: isSaved ? "scale(1.1)" : "scale(1)", // Slight pop effect
+                transition: "transform 0.2s",
+              }}
+            >
+              {/* Pass the isSaved prop to your custom icon */}
+              <SaveIcon isFilled={isSaved} />
+            </Box>
+          )}
+        </IconButton>
       </Box>
 
       {/* Company Info */}
